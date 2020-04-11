@@ -1,6 +1,5 @@
 # 14D-Diary
-This is the android native application for who work or study at home and haven't nothing to do in their free time.   
-:clock4:
+This is the android native application for who work or study at home and haven't nothing to do in their free time. :clock4:
 
 ## Application development :computer:
 **:black_nib: Programming Language:**
