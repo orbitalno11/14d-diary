@@ -20,7 +20,7 @@ This is the android native application for who work or study at home and haven't
 **:books: Libraries:**
 
  - :green_book: [retrofit](https://square.github.io/retrofit/)
- - :green_book: [Glide](https://bumptech.github.io/glide/](https://bumptech.github.io/glide)
+ - :green_book: [Glide](https://bumptech.github.io/glide/](https://bumptech.github.io/glide/)
 
 ## Application support
 This application is supports **android 8.0 (Oreo) <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Android_Oreo_8.1_logo.svg/512px-Android_Oreo_8.1_logo.svg.png" height="20px"/>** or newer.
