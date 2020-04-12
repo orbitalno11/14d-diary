@@ -11,11 +11,11 @@ class ChatRoomViewModel : ViewModel() {
     private val firebaseHelper = FirebaseHelper.getInstance()
     private val messageList: MutableLiveData<List<MessageModel>> = MutableLiveData()
 
-    fun recievedMessage(): LiveData<List<MessageModel>> {
+    fun receivedMessage(): LiveData<List<MessageModel>> {
         return messageList
     }
 
     fun sendMessage(){
-        
+
     }
 }

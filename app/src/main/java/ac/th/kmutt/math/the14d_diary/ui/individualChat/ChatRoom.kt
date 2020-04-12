@@ -31,7 +31,7 @@ class ChatRoom : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 //        viewModel = ViewModelProvider(this).get(ChatRoomViewModel::class.java)
-        viewModel.recievedMessage().observe(viewLifecycleOwner, Observer {
+        viewModel.receivedMessage().observe(viewLifecycleOwner, Observer {
             val adapter = MessageAdapter(context!!, it)
             val manager = LinearLayoutManager(context)
             val rcv = message_view
