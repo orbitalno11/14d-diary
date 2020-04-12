@@ -4,12 +4,16 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.view.Gravity
+import kotlinx.android.synthetic.main.activity_start_screen.*
 
 class StartScreen : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start_screen)
+
+        start_text.gravity = Gravity.CENTER_VERTICAL or Gravity.END
 
         val intent = Intent(this, MainActivity::class.java)
 

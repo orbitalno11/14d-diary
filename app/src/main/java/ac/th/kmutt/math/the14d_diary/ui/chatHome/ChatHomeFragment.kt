@@ -1,4 +1,4 @@
-package ac.th.kmutt.math.the14d_diary.ui.chat
+package ac.th.kmutt.math.the14d_diary.ui.chatHome
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

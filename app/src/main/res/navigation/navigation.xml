@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/nav_chat"
-        android:name="ac.th.kmutt.math.the14d_diary.ui.chat.ChatHomeFragment"
+        android:name="ac.th.kmutt.math.the14d_diary.ui.chatHome.ChatHomeFragment"
         android:label="fragment_chat_home"
         tools:layout="@layout/fragment_chat_home" />
 </navigation>
