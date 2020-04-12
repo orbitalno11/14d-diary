@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">14D-Diary</string>
+
+    <!--    menu    -->
+    <string name="nav_home">หน้าแรก</string>
+    <string name="nav_chat">สนทนา</string>
+    <string name="nav_diary">บันทึกประจำวัน</string>
+    <string name="nav_profile">โปรไฟล์</string>
 </resources>
