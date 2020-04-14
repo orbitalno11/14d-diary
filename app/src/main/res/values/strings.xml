@@ -2,8 +2,12 @@
     <string name="app_name">14D-Diary</string>
 
     <!--    menu    -->
-    <string name="nav_home">หน้าแรก</string>
+    <string name="nav_home">หน้าหลัก</string>
     <string name="nav_chat">สนทนา</string>
     <string name="nav_diary">บันทึกประจำวัน</string>
     <string name="nav_profile">โปรไฟล์</string>
+
+    <!--    home    -->
+    <string name="home_subtitle">คุณรู้สึกไม่สบายหรือเปล่า?</string>
+    <string name="home_detail">หากคุณรู้สึกไม่สบาย มีอาการเข้าข่าย\nโรค COVID-19 ปรดโทรขอความช่วยเหลือ</string>
 </resources>

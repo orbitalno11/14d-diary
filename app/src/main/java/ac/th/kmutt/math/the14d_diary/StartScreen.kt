@@ -13,8 +13,6 @@ class StartScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start_screen)
 
-        start_text.gravity = Gravity.CENTER_VERTICAL or Gravity.END
-
         val intent = Intent(this, MainActivity::class.java)
 
         val runnable = Runnable {
