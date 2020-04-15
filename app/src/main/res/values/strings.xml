@@ -6,6 +6,7 @@
     <string name="nav_chat">สนทนา</string>
     <string name="nav_diary">บันทึกประจำวัน</string>
     <string name="nav_profile">โปรไฟล์</string>
+    <string name="nav_news">ติดตามสถานการณ์</string>
 
     <!--    home    -->
     <string name="home_subtitle">คุณรู้สึกไม่สบายหรือเปล่า?</string>

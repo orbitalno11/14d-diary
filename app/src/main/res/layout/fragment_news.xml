@@ -4,10 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.chatHome.ChatHomeFragment">
+    tools:context=".ui.news.NewsFragment">
 
     <include
         layout="@layout/layout_appbar"
         app:layout_constraintTop_toTopOf="parent" />
+
+<!--    use viewpager   -->
+<!--    import thai news fragment and global fragment to view pager  -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

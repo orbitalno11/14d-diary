@@ -1,5 +1,6 @@
 package ac.th.kmutt.math.the14d_diary.helper
 
+import ac.th.kmutt.math.the14d_diary.MainActivity
 import ac.th.kmutt.math.the14d_diary.R
 import android.graphics.drawable.Drawable
 import android.view.View
@@ -27,5 +28,11 @@ class AppbarHelper(
 
     fun setMenuClickListener(listener: View.OnClickListener){
         menu.setOnClickListener(listener)
+    }
+
+    fun setMenuNav(activity: MainActivity){
+        menu.setOnClickListener {
+            activity.openDrawer()
+        }
     }
 }
