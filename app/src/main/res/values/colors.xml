@@ -4,5 +4,8 @@
     <color name="colorPrimaryDark">#fcc203</color>
     <color name="colorAccent">#03DAC5</color>
 
-    <color name="redColor">#eb4d4b</color>
+    <color name="redRedOrange">#ff3838</color>
+    <color name="redLightRed">#ff4d4d</color>
+    <color name="pinkPrettyPlease">#ffcccc</color>
+    <color name="pinkYoungSalmon">#ffb8b8</color>
 </resources>
