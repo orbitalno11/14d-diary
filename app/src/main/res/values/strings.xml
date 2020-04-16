@@ -18,4 +18,12 @@
         <item>รายชื่อ</item>
         <item>ประวัติการสนทนา</item>
     </string-array>
+
+
+    <!--    news    -->
+    <string-array name="tab_news">
+        <item>ประเทศไทย</item>
+        <item>ทั่วโลก</item>
+    </string-array>
+    <string name="news_update_time">อัพเดทล่าสุด: </string>
 </resources>

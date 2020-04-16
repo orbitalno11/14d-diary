@@ -4,14 +4,73 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.news.NewsFragment">
+    tools:context=".ui.news.NewsFragment"
+    android:background="@color/colorPrimary">
 
     <include
         android:id="@+id/app_bar_header"
         layout="@layout/layout_appbar"
         app:layout_constraintTop_toTopOf="parent" />
 
-<!--    use viewpager   -->
-<!--    import thai news fragment and global fragment to view pager  -->
+    <TextView
+        android:id="@+id/news_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="@string/nav_news"
+        android:textColor="@android:color/white"
+        android:textSize="45sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/app_bar_header" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/news_tab"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/bg_tablayout_news"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/news_header"
+        app:layout_constraintWidth_percent="0.75"
+        app:tabBackground="@drawable/selector_tablayout_news"
+        app:tabGravity="fill"
+        app:tabIndicatorHeight="0dp"
+        app:tabRippleColor="@null"
+        app:tabSelectedTextColor="@android:color/black"
+        app:tabTextAppearance="@style/TabTextAppearance"
+        app:tabTextColor="@android:color/white" />
+
+    <TextView
+        android:id="@+id/news_update_time_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/news_update_time"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/news_tab" />
+
+    <TextView
+        android:id="@+id/news_update_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/news_update_time"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@id/news_update_time_label"
+        app:layout_constraintTop_toBottomOf="@id/news_tab" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/news_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/news_update_time_label" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
