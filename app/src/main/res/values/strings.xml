@@ -12,4 +12,10 @@
     <string name="home_subtitle">คุณรู้สึกไม่สบายหรือเปล่า?</string>
     <string name="home_detail">หากคุณรู้สึกไม่สบาย มีอาการเข้าข่าย\nโรค COVID-19 ปรดโทรขอความช่วยเหลือ</string>
     <string name="home_emergency_call">โทรด่วน</string>
+    
+    <!--    chat    -->
+    <string-array name="tab_chat">
+        <item>รายชื่อ</item>
+        <item>ประวัติการสนทนา</item>
+    </string-array>
 </resources>

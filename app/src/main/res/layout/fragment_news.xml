@@ -7,6 +7,7 @@
     tools:context=".ui.news.NewsFragment">
 
     <include
+        android:id="@+id/app_bar_header"
         layout="@layout/layout_appbar"
         app:layout_constraintTop_toTopOf="parent" />
 

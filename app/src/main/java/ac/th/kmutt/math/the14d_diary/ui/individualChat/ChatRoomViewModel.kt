@@ -12,6 +12,11 @@ class ChatRoomViewModel : ViewModel() {
     private val messageList: MutableLiveData<List<MessageModel>> = MutableLiveData()
 
     fun receivedMessage(): LiveData<List<MessageModel>> {
+        val msg: MutableList<MessageModel> = mutableListOf()
+        msg.add(MessageModel("14D-Diary", "14d-diary", "Hello", "19.00"))
+        msg.add(MessageModel("aob", "aob_id", "Hi", "19.00"))
+
+        messageList.value = msg
         return messageList
     }
 

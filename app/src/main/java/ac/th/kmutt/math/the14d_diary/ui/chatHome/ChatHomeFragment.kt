@@ -8,9 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 
 import ac.th.kmutt.math.the14d_diary.R
+import ac.th.kmutt.math.the14d_diary.adapter.ChatTabAdapter
 import ac.th.kmutt.math.the14d_diary.helper.AppbarHelper
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
+import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_chat_home.*
 
 class ChatHomeFragment : Fragment() {
@@ -32,10 +33,14 @@ class ChatHomeFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setupAppbar()
-        // TODO: Use the ViewModel
 
-        chat_tab.addTab(chat_tab.newTab().setText("CHAT"))
-        chat_tab.addTab(chat_tab.newTab().setText("CHAT2"))
+        // setup tab layout and viewpager
+        val tab_layout = chat_tab
+        chat_viewpager.adapter = ChatTabAdapter(this)
+        val tabName: Array<String> = resources.getStringArray(R.array.tab_chat)
+        TabLayoutMediator(tab_layout, chat_viewpager){ tab, position ->
+            tab.text = tabName[position]
+        }.attach()
     }
 
     private fun setupAppbar(){

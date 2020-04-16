@@ -13,7 +13,6 @@
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/chat_tab"
-        style="@style/TabTextAppearance"
         android:layout_width="0dp"
         android:layout_height="36dp"
         android:layout_marginTop="15dp"
@@ -23,11 +22,12 @@
         app:layout_constraintTop_toBottomOf="@id/app_bar_header"
         app:layout_constraintWidth_percent="0.75"
         app:tabBackground="@drawable/selector_tablayout"
-        app:tabTextColor="@android:color/white"
         app:tabGravity="fill"
         app:tabIndicatorHeight="0dp"
         app:tabRippleColor="@null"
-        app:tabSelectedTextColor="@android:color/black" />
+        app:tabSelectedTextColor="@android:color/black"
+        app:tabTextAppearance="@style/TabTextAppearance"
+        app:tabTextColor="@android:color/white" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/chat_viewpager"
