@@ -8,4 +8,6 @@
     <color name="redLightRed">#ff4d4d</color>
     <color name="pinkPrettyPlease">#ffcccc</color>
     <color name="pinkYoungSalmon">#ffb8b8</color>
+
+    <color name="yellowPrimaryLight">#fcdc74</color>
 </resources>

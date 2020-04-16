@@ -11,6 +11,7 @@ import ac.th.kmutt.math.the14d_diary.R
 import ac.th.kmutt.math.the14d_diary.helper.AppbarHelper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
+import kotlinx.android.synthetic.main.fragment_chat_home.*
 
 class ChatHomeFragment : Fragment() {
 
@@ -33,6 +34,8 @@ class ChatHomeFragment : Fragment() {
         setupAppbar()
         // TODO: Use the ViewModel
 
+        chat_tab.addTab(chat_tab.newTab().setText("CHAT"))
+        chat_tab.addTab(chat_tab.newTab().setText("CHAT2"))
     }
 
     private fun setupAppbar(){
