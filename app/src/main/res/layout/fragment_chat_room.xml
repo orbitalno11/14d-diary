@@ -24,19 +24,23 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="5dp">
 
         <EditText
             android:id="@+id/message_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="@string/app_name"
-            android:layout_weight="0.9"/>
+            android:layout_weight="0.9"
+            android:layout_gravity="bottom"/>
 
-        <Button
+        <ImageButton
             android:id="@+id/message_send_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_width="70dp"
+            android:layout_height="45dp"
+            android:background="@drawable/btn_yellow"
+            android:src="@drawable/ic_send_white_24dp"/>
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
