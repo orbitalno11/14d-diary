@@ -1,13 +1,153 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragment.ThaiNewsFragment">
 
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+        android:layout_height="match_parent">
 
-</FrameLayout>
+        <LinearLayout
+            android:id="@+id/news_all_inflect"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_percent="0.95"
+            android:padding="20dp"
+            android:background="@drawable/bg_inflect">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/news_inflect"
+                android:textSize="25sp"
+                android:textColor="@android:color/white"/>
+
+            <TextView
+                android:id="@+id/news_inflect_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5000"
+                android:textSize="40sp"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:textColor="@android:color/white"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/news_treat"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_treating"
+            app:layout_constraintTop_toBottomOf="@id/news_all_inflect"
+            app:layout_constraintStart_toStartOf="@id/news_all_inflect"
+            app:layout_constraintEnd_toStartOf="@id/news_recover"
+            android:layout_marginTop="15dp"
+            android:padding="15dp"
+            app:layout_constraintWidth_percent="0.3">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/news_treating"
+                android:textSize="20sp"
+                android:textColor="@android:color/white"/>
+
+            <TextView
+                android:id="@+id/news_treat_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3000"
+                android:textSize="30sp"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:textColor="@android:color/white"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/news_recover"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_recover"
+            app:layout_constraintTop_toBottomOf="@id/news_all_inflect"
+            app:layout_constraintStart_toEndOf="@id/news_treat"
+            app:layout_constraintEnd_toStartOf="@id/news_death"
+            android:layout_marginTop="15dp"
+            android:padding="15dp"
+            app:layout_constraintWidth_percent="0.3">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/news_recover"
+                android:textSize="20sp"
+                android:textColor="@android:color/white"/>
+
+            <TextView
+                android:id="@+id/news_recover_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5000"
+                android:textSize="30sp"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:textColor="@android:color/white"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/news_death"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_death"
+            app:layout_constraintTop_toBottomOf="@id/news_all_inflect"
+            app:layout_constraintStart_toEndOf="@id/news_recover"
+            app:layout_constraintEnd_toEndOf="@id/news_all_inflect"
+            android:layout_marginTop="15dp"
+            android:padding="15dp"
+            app:layout_constraintWidth_percent="0.3">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/news_death"
+                android:textSize="20sp"
+                android:textColor="@android:color/white"/>
+
+            <TextView
+                android:id="@+id/news_death_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="100"
+                android:textSize="30sp"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:textColor="@android:color/white"/>
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/news_graph"
+            android:layout_width="0dp"
+            android:layout_height="500dp"
+            android:background="@color/redRedOrange"
+            app:layout_constraintWidth_percent="0.9"
+            app:layout_constraintTop_toBottomOf="@id/news_treat"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="15dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

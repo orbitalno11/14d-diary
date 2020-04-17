@@ -11,4 +11,8 @@
 
     <color name="yellowPrimaryLight">#fcdc74</color>
     <color name="yellowPrimarySuperLight">#fcf0ca</color>
+
+    <color name="blueGoodSamaritan">#3c6382</color>
+    <color name="greenReptile">#26de81</color>
+    <color name="maximumBlueGreen">#2bcbba</color>
 </resources>
