@@ -8,7 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 
 import ac.th.kmutt.math.the14d_diary.R
-import ac.th.kmutt.math.the14d_diary.adapter.ChatListAdapter
+import ac.th.kmutt.math.the14d_diary.adapter.ChatItemAdapter
+import ac.th.kmutt.math.the14d_diary.adapter.DiaryItemAdapter
 import ac.th.kmutt.math.the14d_diary.model.ChatUserModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_chat_list.*
@@ -39,7 +40,7 @@ class ChatListFragment : Fragment() {
         chatList.add(ChatUserModel("c", "cc"))
 
         val rcv = chat_list_rcv
-        val adapter = ChatListAdapter(context!!, chatList)
+        val adapter = ChatItemAdapter(context!!, chatList)
         rcv.adapter = adapter
         rcv.layoutManager = LinearLayoutManager(context)
     }

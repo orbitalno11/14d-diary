@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/diary_img_preview"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@mipmap/ic_launcher"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:layout_weight="0.5"
+        android:layout_marginStart="15dp">
+
+        <TextView
+            android:id="@+id/diary_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="diary 1"
+            android:textSize="30sp"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/diary_day"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="วันที่"
+            android:textSize="20sp"
+            android:layout_marginTop="10dp"/>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.25"
+        android:layout_gravity="bottom">
+
+        <ImageView
+            android:id="@+id/diary_status"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@color/greenReptile"
+            android:layout_gravity="end"/>
+
+    </FrameLayout>
+
+</LinearLayout>

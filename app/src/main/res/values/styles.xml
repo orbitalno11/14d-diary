@@ -15,4 +15,10 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="MenuTabAppearance" parent="TextAppearance.Design.Tab">
+        <item name="fontFamily">@font/supermarket</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
 </resources>

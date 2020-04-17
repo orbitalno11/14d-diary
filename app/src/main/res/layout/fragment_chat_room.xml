@@ -39,6 +39,7 @@
             android:id="@+id/message_send_button"
             android:layout_width="70dp"
             android:layout_height="45dp"
+            style="?android:borderlessButtonStyle"
             android:background="@drawable/btn_yellow"
             android:src="@drawable/ic_send_white_24dp"/>
 

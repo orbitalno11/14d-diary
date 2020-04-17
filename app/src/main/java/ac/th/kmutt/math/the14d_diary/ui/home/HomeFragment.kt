@@ -11,7 +11,9 @@ import ac.th.kmutt.math.the14d_diary.R
 import ac.th.kmutt.math.the14d_diary.helper.AppbarHelper
 import android.view.Gravity
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.layout_appbar.*
@@ -36,6 +38,19 @@ class HomeFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         setupAppbar()
 
+        val navController = Navigation.findNavController(context as AppCompatActivity, R.id.fragment_host)
+
+        chat_button.setOnClickListener {
+            navController.navigate(R.id.action_nav_home_to_nav_chat)
+        }
+
+        diary_button.setOnClickListener {
+            navController.navigate(R.id.action_nav_home_to_nav_diary)
+        }
+
+        news_button.setOnClickListener {
+            navController.navigate(R.id.action_nav_home_to_nav_news)
+        }
     }
 
     private fun setupAppbar(){

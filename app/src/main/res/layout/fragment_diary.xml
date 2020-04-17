@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.diary.DiaryFragment">
+
+    <include
+        android:id="@+id/app_bar_header"
+        layout="@layout/layout_appbar"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <FrameLayout
+                android:id="@+id/diary_bg_header"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:background="@drawable/bg_diary"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <ImageView
+                android:id="@+id/diary_picture"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_gravity="center_horizontal"
+                android:contentDescription="@string/app_name"
+                android:src="@mipmap/ic_launcher"
+                android:background="@drawable/border_picture"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="30dp"
+                android:padding="10dp"/>
+
+            <TextView
+                android:id="@+id/diary_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name"
+                android:textSize="30sp"
+                android:textColor="@android:color/black"
+                app:layout_constraintTop_toBottomOf="@id/diary_picture"
+                app:layout_constraintStart_toStartOf="@id/diary_picture"
+                android:layout_marginTop="20dp"/>
+
+
+            <EditText
+                android:id="@+id/diary_detail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:inputType="text"
+                android:hint="@string/home_detail"
+                android:lineSpacingMultiplier="1.5"
+                app:layout_constraintTop_toBottomOf="@id/diary_name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintWidth_percent="0.8"
+                android:layout_marginTop="15dp"
+                android:autofillHints=":)" />
+
+            <Button
+                android:id="@+id/diary_submit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_yellow"
+                android:text="@string/diary_save"
+                android:textSize="20sp"
+                style="?android:borderlessButtonStyle"
+                android:textColor="@android:color/white"
+                app:layout_constraintTop_toBottomOf="@id/diary_detail"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

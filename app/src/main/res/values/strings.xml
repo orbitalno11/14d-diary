@@ -11,7 +11,7 @@
 
     <!--    home    -->
     <string name="home_subtitle">คุณรู้สึกไม่สบายหรือเปล่า?</string>
-    <string name="home_detail">หากคุณรู้สึกไม่สบาย มีอาการเข้าข่าย\nโรค COVID-19 ปรดโทรขอความช่วยเหลือ</string>
+    <string name="home_detail">หากคุณรู้สึกไม่สบาย มีอาการเข้าข่าย\nโรค COVID-19 โปรดโทรขอความช่วยเหลือ</string>
     <string name="home_emergency_call">โทรด่วน</string>
     
     <!--    chat    -->
@@ -19,7 +19,6 @@
         <item>รายชื่อ</item>
         <item>ประวัติการสนทนา</item>
     </string-array>
-
 
     <!--    news    -->
     <string-array name="tab_news">
@@ -31,4 +30,13 @@
     <string name="news_treating">กำลังรักษา</string>
     <string name="news_recover">รักษาหายแล้ว</string>
     <string name="news_death">เสียชีวิต</string>
+
+    <!--    diary   -->
+    <string-array name="tab_diary">
+        <item>เควสทั้งหมด</item>
+        <item>สำเร็จ</item>
+    </string-array>
+
+    <string name="diary_save">บันทึก</string>
+
 </resources>
