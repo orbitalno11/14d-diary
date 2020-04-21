@@ -27,9 +27,12 @@
     </string-array>
     <string name="news_update_time">อัพเดทล่าสุด: </string>
     <string name="news_inflect">ติดเชื้อสะสม</string>
-    <string name="news_treating">กำลังรักษา</string>
-    <string name="news_recover">รักษาหายแล้ว</string>
-    <string name="news_death">เสียชีวิต</string>
+    <string name="news_treating">กำลังรักษาสะสม</string>
+    <string name="news_recover">รักษาหายแล้วสะสม</string>
+    <string name="news_death">ผู้เสียชีวิตสะสม</string>
+    <string name="news_new_inflect">ติดเชื้อใหม่วันนี้</string>
+    <string name="news_new_death">ผู้เสียชีวิตวันนี้</string>
+    <string name="news_new_recover">รักษาหายแล้ววันนี้</string>
 
     <!--    diary   -->
     <string-array name="tab_diary">
