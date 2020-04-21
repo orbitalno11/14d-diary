@@ -2,12 +2,9 @@ package ac.th.kmutt.math.the14d_diary.fragment
 
 import ac.th.kmutt.math.the14d_diary.model.NewsModel
 import ac.th.kmutt.math.the14d_diary.repository.NewsRepository
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.async

@@ -1,7 +1,6 @@
 package ac.th.kmutt.math.the14d_diary.repository
 
 import ac.th.kmutt.math.the14d_diary.model.NewsModel
-import retrofit2.Call
 import retrofit2.http.GET
 
 interface NewsService {

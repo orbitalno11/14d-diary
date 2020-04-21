@@ -2,7 +2,6 @@ package ac.th.kmutt.math.the14d_diary.fragment
 
 import ac.th.kmutt.math.the14d_diary.model.NewsModel
 import ac.th.kmutt.math.the14d_diary.repository.NewsRepository
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
