@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.layout_appbar.*
@@ -41,7 +42,9 @@ class HomeFragment : Fragment() {
         val navController = Navigation.findNavController(context as AppCompatActivity, R.id.fragment_host)
 
         chat_button.setOnClickListener {
-            navController.navigate(R.id.action_nav_home_to_nav_chat)
+            val mAuth = FirebaseAuth.getInstance()
+            mAuth.signOut()
+//            navController.navigate(R.id.action_nav_home_to_nav_chat)
         }
 
         diary_button.setOnClickListener {

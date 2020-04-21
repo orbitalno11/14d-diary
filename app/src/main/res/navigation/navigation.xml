@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_nav_home_to_nav_diary"
             app:destination="@id/nav_diary" />
+        <action
+            android:id="@+id/action_nav_home_to_profileFragment"
+            app:destination="@id/nav_profile" />
     </fragment>
     <fragment
         android:id="@+id/nav_chat"
@@ -53,4 +56,10 @@
         android:name="ac.th.kmutt.math.the14d_diary.ui.diary.DiaryFragment"
         android:label="fragment_diary"
         tools:layout="@layout/fragment_diary" />
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="ac.th.kmutt.math.the14d_diary.ui.profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" >
+    </fragment>
 </navigation>

@@ -2,6 +2,7 @@ package ac.th.kmutt.math.the14d_diary.helper
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
@@ -27,6 +28,17 @@ class FirebaseHelper{
         return mAuth.currentUser
     }
 
-    // database
+    fun getAuth(): FirebaseAuth{
+        return mAuth
+    }
 
+    // database
+    fun getDatabaseRef(): DatabaseReference{
+        return database.reference
+    }
+
+    // get user database
+    fun getUserRef(): DatabaseReference{
+        return database.getReference("user")
+    }
 }

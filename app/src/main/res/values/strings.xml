@@ -13,7 +13,7 @@
     <string name="home_subtitle">คุณรู้สึกไม่สบายหรือเปล่า?</string>
     <string name="home_detail">หากคุณรู้สึกไม่สบาย มีอาการเข้าข่าย\nโรค COVID-19 โปรดโทรขอความช่วยเหลือ</string>
     <string name="home_emergency_call">โทรด่วน</string>
-    
+
     <!--    chat    -->
     <string-array name="tab_chat">
         <item>รายชื่อ</item>
@@ -41,5 +41,16 @@
     </string-array>
 
     <string name="diary_save">บันทึก</string>
+
+    <!--    register    -->
+    <string name="text_email">email@kmutt.ac.th</string>
+    <string name="text_password">รหัสผ่าน</string>
+    <string name="text_register">ลงทะเบียน</string>
+    <string name="text_user_name">ชื่อ</string>
+    <string name="text_user_last_name">นามสกุล</string>
+    <string name="text_display_name">ชื่อที่แสดง</string>
+
+    <!--    sign in  -->
+    <string name="text_sign_in">ลงชื่อเข้าใช้</string>
 
 </resources>
