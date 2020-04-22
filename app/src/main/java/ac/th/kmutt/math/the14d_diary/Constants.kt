@@ -7,6 +7,6 @@ class Constants {
         const val GLOBAL_COVID_API = "https://api.covid19api.com/"
 
         const val NEWS_API = "https://newsapi.org/v2/"
-        const val NEWS_API_KEY = "API_KEY"
+        const val NEWS_API_KEY = "KEY"
     }
 }
