@@ -1,7 +1,7 @@
 package ac.th.kmutt.math.the14d_diary.repository
 
 import ac.th.kmutt.math.the14d_diary.Constants
-import ac.th.kmutt.math.the14d_diary.model.NewsModel
+import ac.th.kmutt.math.the14d_diary.model.InflectNewsModel
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -16,6 +16,14 @@ class NewsRepository {
             }
             return instance as NewsRepository
         }
+    }
+
+    // create retrofit for news api
+    fun createNewsAPI(): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(Constants.NEWS_API)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
     }
 
     // create retrofit connection for thai api
@@ -34,7 +42,7 @@ class NewsRepository {
             .build()
     }
 
-     suspend fun getThaiToday(): NewsModel{
+     suspend fun getThaiToday(): InflectNewsModel{
         val retrofit = createThaiAPI()
         val service = retrofit.create(NewsService::class.java)
         return service.getThaiCovidToday()

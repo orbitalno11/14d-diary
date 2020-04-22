@@ -252,6 +252,13 @@
 
         </LinearLayout>
 
+        <com.airbnb.epoxy.EpoxyRecyclerView
+            android:id="@+id/news_rcv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/news_death"
+            android:layout_marginTop="15dp"/>
+
         <!--        <FrameLayout-->
 <!--            android:id="@+id/news_graph"-->
 <!--            android:layout_width="0dp"-->

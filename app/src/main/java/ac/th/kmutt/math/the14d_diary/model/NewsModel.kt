@@ -1,13 +1,11 @@
 package ac.th.kmutt.math.the14d_diary.model
 
 data class NewsModel(
-    var Confirmed: Int = 0,
-    var Deaths: Int = 0,
-    var Hospitalized: Int = 0,
-    var NewConfirmed: Int = 0,
-    var NewDeaths: Int = 0,
-    var NewHospitalized: Int = 0,
-    var NewRecovered: Int = 0,
-    var Recovered: Int = 0,
-    var UpdateDate: String = ""
+    var source: HashMap<String, String> = HashMap(),
+    var author: String = "",
+    var title: String = "",
+    var description: String = "",
+    var url: String = "",
+    var urlToImage: String = "",
+    var publishedAt: String = ""
 )

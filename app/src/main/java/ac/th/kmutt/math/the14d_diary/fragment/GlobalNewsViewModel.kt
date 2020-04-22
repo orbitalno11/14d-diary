@@ -1,6 +1,6 @@
 package ac.th.kmutt.math.the14d_diary.fragment
 
-import ac.th.kmutt.math.the14d_diary.model.NewsModel
+import ac.th.kmutt.math.the14d_diary.model.InflectNewsModel
 import ac.th.kmutt.math.the14d_diary.repository.NewsRepository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,15 +14,15 @@ import kotlin.math.roundToInt
 
 class GlobalNewsViewModel : ViewModel() {
     private val newsRepository = NewsRepository.getInstance()
-    private val newsToday: MutableLiveData<NewsModel> = MutableLiveData()
+    private val newsToday: MutableLiveData<InflectNewsModel> = MutableLiveData()
 
-    fun getToday(): LiveData<NewsModel>{
+    fun getToday(): LiveData<InflectNewsModel>{
         CoroutineScope(IO).launch {
             val data = async {
                 newsRepository.getWorldToday()
             }.await()
 
-            val news = NewsModel()
+            val news = InflectNewsModel()
             val global = data["Global"].toString()
             val map = jsonToMap(global)
 

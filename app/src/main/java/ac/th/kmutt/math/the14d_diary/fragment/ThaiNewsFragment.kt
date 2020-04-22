@@ -7,9 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 
 import ac.th.kmutt.math.the14d_diary.R
-import ac.th.kmutt.math.the14d_diary.model.NewsModel
+import ac.th.kmutt.math.the14d_diary.epoxy.Controller
+import ac.th.kmutt.math.the14d_diary.model.InflectNewsModel
+import android.util.Log
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_news_thai.*
 
 class ThaiNewsFragment : Fragment() {
@@ -19,7 +22,7 @@ class ThaiNewsFragment : Fragment() {
     }
 
     private val viewModel: ThaiNewsViewModel by viewModels()
-    private var newsToday: NewsModel? = null
+    private var newsToday: InflectNewsModel? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +40,16 @@ class ThaiNewsFragment : Fragment() {
             newsToday?.let {
                 setupData()
             }
+        })
+
+        viewModel.getTodayNews().observe(viewLifecycleOwner, Observer {
+            val controller = Controller().apply {
+                newsItems = it
+            }
+
+            news_rcv.layoutManager = LinearLayoutManager(context)
+            news_rcv.setHasFixedSize(false)
+            news_rcv.setController(controller)
         })
 
     }
