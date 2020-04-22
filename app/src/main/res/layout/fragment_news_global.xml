@@ -222,16 +222,12 @@
 
         </LinearLayout>
 
-        <!--        <FrameLayout-->
-        <!--            android:id="@+id/news_graph"-->
-        <!--            android:layout_width="0dp"-->
-        <!--            android:layout_height="500dp"-->
-        <!--            android:background="@color/redRedOrange"-->
-        <!--            app:layout_constraintWidth_percent="0.9"-->
-        <!--            app:layout_constraintTop_toBottomOf="@id/news_treat"-->
-        <!--            app:layout_constraintStart_toStartOf="parent"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent"-->
-        <!--            android:layout_marginTop="15dp" />-->
+        <com.airbnb.epoxy.EpoxyRecyclerView
+            android:id="@+id/news_rcv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/news_recover"
+            android:layout_marginTop="15dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,6 +1,7 @@
 package ac.th.kmutt.math.the14d_diary.fragment
 
 import ac.th.kmutt.math.the14d_diary.R
+import ac.th.kmutt.math.the14d_diary.epoxy.Controller
 import ac.th.kmutt.math.the14d_diary.model.InflectNewsModel
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_news_global.*
 
 
@@ -38,6 +40,16 @@ class GlobalNewsFragment : Fragment() {
             newsToday?.let {
                 setupData()
             }
+        })
+
+        viewModel.getTodayNews().observe(viewLifecycleOwner, Observer {
+            val controller = Controller().apply {
+                newsItems = it
+            }
+
+            news_rcv.layoutManager = LinearLayoutManager(context)
+            news_rcv.setHasFixedSize(false)
+            news_rcv.setController(controller)
         })
     }
 

@@ -17,4 +17,7 @@ interface NewsService {
     @GET("top-headlines?country=th&category=health&apiKey=${Constants.NEWS_API_KEY}")
     fun getThaiNews(): Call<ReceivedNewsModel>
 
+    @GET("top-headlines?country=us&category=health&apiKey=${Constants.NEWS_API_KEY}")
+    fun getUsNews(): Call<ReceivedNewsModel>
+
 }

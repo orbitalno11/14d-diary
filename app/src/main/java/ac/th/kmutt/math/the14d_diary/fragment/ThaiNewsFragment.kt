@@ -29,7 +29,6 @@ class ThaiNewsFragment : Fragment() {
 
     private val viewModel: ThaiNewsViewModel by viewModels()
     private var newsToday: InflectNewsModel? = null
-    private val newsRepository = NewsRepository.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
