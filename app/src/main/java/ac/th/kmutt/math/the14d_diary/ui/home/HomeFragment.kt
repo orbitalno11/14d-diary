@@ -25,7 +25,6 @@ class HomeFragment : Fragment() {
         fun newInstance() = HomeFragment()
     }
 
-    private val viewModel: HomeViewModel by viewModels()
     private lateinit var appbarHelper: AppbarHelper
 
     override fun onCreateView(

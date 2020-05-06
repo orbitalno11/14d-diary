@@ -43,40 +43,17 @@ class MessageAdapter(
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val item = this.mItems[position]
 
-        // sample
-        holder.senderName.text = item.sender
-        holder.sendTime.text = item.sendTime
-        holder.message.text = item.message
+        user?.let {
+            holder.senderName.text = item.sender
+            holder.sendTime.text = item.sendTime
+            holder.message.text = item.message
 
-        val userID = "14d-diary"
-        Log.d("ADAPTER", "userID: $userID senderID: ${item.senderID}")
-        if (userID == item.senderID){
-            Log.d("ADAPTER", "OWN")
-            holder.senderDetail.gravity = Gravity.END
-            holder.messageDetail.gravity = Gravity.END
-        }else{
-            Log.d("ADAPTER", "SENDER")
-//            holder.sendTime.gravity = Gravity.START
-//            holder.senderName.gravity = Gravity.START
-//            holder.message.gravity = Gravity.START
+            val userID = it.uid
+            if (userID == item.senderID){
+                holder.senderDetail.gravity = Gravity.END
+                holder.messageDetail.gravity = Gravity.END
+            }
+
         }
-
-        // when has user user this
-//        user?.let {
-//            holder.senderName.text = item.sender
-//            holder.sendTime.text = item.sendTime
-//            holder.message.text = item.message
-//
-//            val userID = "14d-diary" // replace userID from it.uid
-//            if (userID == item.senderID){
-//                holder.sendTime.gravity = Gravity.END
-//                holder.senderName.gravity = Gravity.END
-//                holder.message.gravity = Gravity.END
-//            }else{
-//                holder.sendTime.gravity = Gravity.START
-//                holder.senderName.gravity = Gravity.START
-//                holder.message.gravity = Gravity.START
-//            }
-//        }
     }
 }

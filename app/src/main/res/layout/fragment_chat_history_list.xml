@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.ChatHistoryListFragment">
+    tools:context=".ui.chatHome.historyChat.ChatHistoryListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chat_history_rcv"

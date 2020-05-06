@@ -6,16 +6,16 @@ import com.google.firebase.database.IgnoreExtraProperties
 @IgnoreExtraProperties
 class ChatUserModel(
     var userID: String = "",
-    var userName: String = "",
-    var userImg: String = ""
+    var displayName: String = "",
+    var picture: String = ""
 ) {
 
     @Exclude
     fun toMap(): Map<String, String>{
         return mapOf(
             "userID" to userID,
-            "userName" to userName,
-            "userImg" to userImg
+            "displayName" to displayName,
+            "picture" to picture
         )
     }
 }

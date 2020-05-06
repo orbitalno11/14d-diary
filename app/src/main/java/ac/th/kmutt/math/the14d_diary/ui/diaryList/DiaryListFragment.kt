@@ -1,7 +1,6 @@
 package ac.th.kmutt.math.the14d_diary.ui.diaryList
 
 import ac.th.kmutt.math.the14d_diary.MainActivity
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 
 import ac.th.kmutt.math.the14d_diary.R
-import ac.th.kmutt.math.the14d_diary.adapter.ChatTabAdapter
 import ac.th.kmutt.math.the14d_diary.adapter.DiaryTabAdapter
 import ac.th.kmutt.math.the14d_diary.helper.AppbarHelper
 import com.google.android.material.tabs.TabLayoutMediator
@@ -21,7 +19,6 @@ class DiaryListFragment : Fragment() {
         fun newInstance() = DiaryListFragment()
     }
 
-    private lateinit var viewModel: DiaryListViewModel
     private lateinit var appbarHelper: AppbarHelper
 
     override fun onCreateView(
@@ -33,7 +30,6 @@ class DiaryListFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(DiaryListViewModel::class.java)
         setupAppbar()
 
         // setup tab layout and view pager

@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import ac.th.kmutt.math.the14d_diary.R
 import ac.th.kmutt.math.the14d_diary.adapter.ChatTabAdapter
 import ac.th.kmutt.math.the14d_diary.helper.AppbarHelper
-import androidx.fragment.app.viewModels
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_chat_home.*
 
@@ -20,7 +19,6 @@ class ChatHomeFragment : Fragment() {
         fun newInstance() = ChatHomeFragment()
     }
 
-    private val viewModel: ChatHomeViewModel by viewModels()
     private lateinit var appbarHelper: AppbarHelper
 
     override fun onCreateView(

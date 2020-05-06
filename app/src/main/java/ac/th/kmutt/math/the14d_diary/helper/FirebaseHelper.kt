@@ -66,12 +66,18 @@ class FirebaseHelper {
         return database.getReference("user")
     }
 
+    // get message database
+    fun getMessageDatabaseRef(): DatabaseReference{
+        return database.getReference("chat/messages")
+    }
+
     fun createUser(data: Bundle) {
         val user = UserModel()
         user.apply {
             this.displayName = data.getString("name")!!
             this.email = data.getString("email")!!
             this.userID = "line:${data.getString("id")}"
+            this.picture = data.getString("picture")!!
         }
         val userID = "line:${data.getString("id")}"
         getUserRef().child(userID).setValue(user)

@@ -5,18 +5,24 @@ import android.content.Context
 import android.os.Bundle
 import com.linecorp.linesdk.api.LineApiClient
 import com.linecorp.linesdk.api.LineApiClientBuilder
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
-class LineHelper(applicationContext: Context) {
+class LineHelper(applicationContext: Context): CoroutineScope {
     private var lineApiClient: LineApiClient = LineApiClientBuilder(applicationContext, Constants.LINE_CHANNEL_ID).build()
-    private lateinit var lineProfile: Bundle
+    private val job = Job()
+
+    override val coroutineContext: CoroutineContext
+        get() = job + Dispatchers.Main
 
     fun getProfile(): Bundle {
+        val data = Bundle()
         val response = lineApiClient.profile
         val displayName: String = response.responseData.displayName
         val picture: String = response.responseData.pictureUrl.toString()
-        lineProfile.putString("displayName", displayName)
-        lineProfile.putString("picture", picture)
-        return lineProfile
+        data.putString("displayName", displayName)
+        data.putString("picture", picture)
+        return data
     }
 
     fun logout(){

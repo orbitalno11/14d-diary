@@ -1,4 +1,4 @@
-package ac.th.kmutt.math.the14d_diary.fragment
+package ac.th.kmutt.math.the14d_diary.ui.news.thaiNews
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,22 +9,16 @@ import android.view.ViewGroup
 import ac.th.kmutt.math.the14d_diary.R
 import ac.th.kmutt.math.the14d_diary.epoxy.Controller
 import ac.th.kmutt.math.the14d_diary.model.InflectNewsModel
-import ac.th.kmutt.math.the14d_diary.model.ReceivedNewsModel
-import ac.th.kmutt.math.the14d_diary.repository.NewsRepository
-import ac.th.kmutt.math.the14d_diary.repository.NewsService
-import android.util.Log
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_news_thai.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class ThaiNewsFragment : Fragment() {
 
     companion object {
-        fun newInstance() = ThaiNewsFragment()
+        fun newInstance() =
+            ThaiNewsFragment()
     }
 
     private val viewModel: ThaiNewsViewModel by viewModels()

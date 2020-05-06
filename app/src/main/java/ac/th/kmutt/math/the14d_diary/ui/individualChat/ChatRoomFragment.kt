@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import ac.th.kmutt.math.the14d_diary.R
 import ac.th.kmutt.math.the14d_diary.adapter.MessageAdapter
 import ac.th.kmutt.math.the14d_diary.helper.AppbarHelper
+import ac.th.kmutt.math.the14d_diary.model.MessageModel
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +24,7 @@ class ChatRoomFragment : Fragment() {
     private val viewModel: ChatRoomViewModel by viewModels()
     private lateinit var appbarHelper: AppbarHelper
     private lateinit var userName: String
+    private lateinit var receiverID: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,16 +37,18 @@ class ChatRoomFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 //        viewModel = ViewModelProvider(this).get(ChatRoomViewModel::class.java)
         this.userName = arguments?.getString("userName")!!
+        this.receiverID = arguments?.getString("userID")!!
         setupAppbar()
-
+        viewModel.setupChat(this.receiverID)
         viewModel.receivedMessage().observe(viewLifecycleOwner, Observer {
-            val adapter = MessageAdapter(context!!, it)
-            val manager = LinearLayoutManager(context)
-            val rcv = message_view
-            rcv.adapter = adapter
-            manager.stackFromEnd = true
-            rcv.layoutManager = manager
+            addMessage(it)
+            message_text.text.clear()
         })
+
+        message_send_button.setOnClickListener{
+            val message = message_text.text.toString()
+            viewModel.sendMessage(message)
+        }
     }
 
     private fun setupAppbar(){
@@ -54,6 +58,15 @@ class ChatRoomFragment : Fragment() {
         appbarHelper.setMenuClickListener(View.OnClickListener {
             activity?.onBackPressed()
         })
+    }
+
+    private fun addMessage(message: List<MessageModel>){
+        val rcv = message_view
+        val adapter = MessageAdapter(context!!, message)
+        rcv.adapter = adapter
+        val manager = LinearLayoutManager(context)
+        manager.stackFromEnd = true
+        rcv.layoutManager = manager
     }
 
 }

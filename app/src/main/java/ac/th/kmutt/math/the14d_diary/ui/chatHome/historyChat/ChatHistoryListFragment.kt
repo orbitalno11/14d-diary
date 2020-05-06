@@ -1,4 +1,4 @@
-package ac.th.kmutt.math.the14d_diary.fragment
+package ac.th.kmutt.math.the14d_diary.ui.chatHome.historyChat
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -9,18 +9,20 @@ import android.view.ViewGroup
 
 import ac.th.kmutt.math.the14d_diary.R
 import ac.th.kmutt.math.the14d_diary.adapter.ChatItemAdapter
-import ac.th.kmutt.math.the14d_diary.adapter.DiaryItemAdapter
 import ac.th.kmutt.math.the14d_diary.model.ChatUserModel
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_chat_history_list.*
 
 class ChatHistoryListFragment : Fragment() {
 
     companion object {
-        fun newInstance() = ChatHistoryListFragment()
+        fun newInstance() =
+            ChatHistoryListFragment()
     }
 
-    private lateinit var viewModel: ChatHistoryListViewModel
+    private val viewModel by viewModels<ChatHistoryListViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,8 +33,10 @@ class ChatHistoryListFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(ChatHistoryListViewModel::class.java)
-        // TODO: Use the ViewModel
+
+        viewModel.getHistoryList().observe(viewLifecycleOwner, Observer {
+
+        })
 
         val chatList = ArrayList<ChatUserModel>()
         chatList.add(ChatUserModel("a", "aa"))

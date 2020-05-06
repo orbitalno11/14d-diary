@@ -1,4 +1,4 @@
-package ac.th.kmutt.math.the14d_diary.fragment
+package ac.th.kmutt.math.the14d_diary.ui.news.globalNews
 
 import ac.th.kmutt.math.the14d_diary.R
 import ac.th.kmutt.math.the14d_diary.epoxy.Controller

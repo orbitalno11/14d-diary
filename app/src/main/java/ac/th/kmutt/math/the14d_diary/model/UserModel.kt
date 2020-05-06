@@ -6,5 +6,6 @@ import com.google.firebase.database.IgnoreExtraProperties
 data class UserModel (
     var userID: String = "",
     var email: String = "",
-    var displayName: String = ""
+    var displayName: String = "",
+    var picture: String = ""
 )

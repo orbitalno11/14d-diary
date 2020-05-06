@@ -1,4 +1,4 @@
-package ac.th.kmutt.math.the14d_diary.fragment
+package ac.th.kmutt.math.the14d_diary.ui.news.thaiNews
 
 import ac.th.kmutt.math.the14d_diary.model.InflectNewsModel
 import ac.th.kmutt.math.the14d_diary.model.NewsModel

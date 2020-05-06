@@ -12,6 +12,10 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.transition.Transition
+import com.bumptech.glide.request.transition.TransitionFactory
 
 class ChatItemAdapter(
     private val mContext: Context,
@@ -23,11 +27,13 @@ class ChatItemAdapter(
         val userImg: ImageView = view.findViewById(R.id.chat_picture)
 
         fun bind(user: ChatUserModel){
-            userName.text = user.userName
+            userName.text = user.displayName
+            Glide.with(view).load(user.picture).centerCrop().apply(RequestOptions.circleCropTransform()).into(userImg)
 
             itemView.setOnClickListener {
                 val bundle = Bundle()
-                bundle.putString("userName", user.userName)
+                bundle.putString("userID", user.userID)
+                bundle.putString("userName", user.displayName)
                 val navController = Navigation.findNavController(it.context as AppCompatActivity, R.id.fragment_host)
                 navController.navigate(R.id.action_nav_chat_to_chatRoom, bundle)
             }
