@@ -8,5 +8,8 @@ class Constants {
 
         const val NEWS_API = "https://newsapi.org/v2/"
         const val NEWS_API_KEY = "KEY"
+
+        const val LINE_CHANNEL_ID = "<CHANNEL_ID>"
+        const val CLOUD_FUNCTION_API = "https://orbitalno11.herokuapp.com/"
     }
 }

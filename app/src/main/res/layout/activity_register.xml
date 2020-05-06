@@ -22,75 +22,33 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
+        <TextView
             android:id="@+id/user_display_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:autofillHints="@string/app_name"
             android:hint="@string/text_display_name"
-            android:inputType="text"
+            android:textSize="25sp"
             android:textColor="@android:color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/regis_pic"
             app:layout_constraintWidth_percent="0.8" />
 
-        <EditText
-            android:id="@+id/user_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:autofillHints="@string/text_user_name"
-            android:hint="@string/text_user_name"
-            android:inputType="text"
-            android:textColor="@android:color/white"
-            app:layout_constraintEnd_toStartOf="@id/user_last_name"
-            app:layout_constraintStart_toStartOf="@id/user_display_name"
-            app:layout_constraintTop_toBottomOf="@id/user_display_name"
-            app:layout_constraintWidth_percent="0.4" />
-
-        <EditText
-            android:id="@+id/user_last_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:autofillHints="@string/text_user_last_name"
-            android:hint="@string/text_user_last_name"
-            android:inputType="text"
-            android:textColor="@android:color/white"
-            app:layout_constraintEnd_toEndOf="@id/user_display_name"
-            app:layout_constraintStart_toEndOf="@id/user_name"
-            app:layout_constraintTop_toBottomOf="@id/user_display_name"
-            app:layout_constraintWidth_percent="0.4" />
-
-        <EditText
+        <TextView
             android:id="@+id/user_email"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:autofillHints="@string/text_email"
             android:hint="@string/text_email"
-            android:inputType="textEmailAddress"
+            android:textSize="25sp"
             android:textColor="@android:color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/user_name"
+            app:layout_constraintTop_toBottomOf="@id/user_display_name"
             app:layout_constraintWidth_percent="0.8" />
 
-        <EditText
-            android:id="@+id/user_password"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:autofillHints="@string/text_password"
-            android:hint="@string/text_password"
-            android:inputType="textPassword"
-            android:textColor="@android:color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/user_email"
-            app:layout_constraintWidth_percent="0.8" />
 
         <Button
             android:id="@+id/register_submit"
@@ -105,7 +63,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/user_password" />
+            app:layout_constraintTop_toBottomOf="@id/user_email" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

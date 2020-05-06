@@ -86,4 +86,7 @@ dependencies {
     implementation 'com.airbnb.android:epoxy:3.9.0'
     kapt 'com.airbnb.android:epoxy-processor:3.9.0'
 
+//    line sdk
+    implementation 'com.linecorp:linesdk:5.0.1'
+
 }
