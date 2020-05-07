@@ -1,7 +1,10 @@
 package ac.th.kmutt.math.the14d_diary.ui.individualChat
 
 import ac.th.kmutt.math.the14d_diary.helper.FirebaseHelper
+import ac.th.kmutt.math.the14d_diary.model.ChatUserModel
 import ac.th.kmutt.math.the14d_diary.model.MessageModel
+import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -23,19 +26,45 @@ class ChatRoomViewModel : ViewModel() {
     private lateinit var senderDatabase: DatabaseReference
     private lateinit var receiverDatabase: DatabaseReference
 
-    fun setupChat(receiverID: String){
-        this.receiverID = receiverID
-        this.senderID = firebaseHelper.getAuth().currentUser!!.uid
-        this.senderName = firebaseHelper.getAuth().currentUser!!.displayName!!
+    fun setupChat(receiver: Bundle?){
+        receiver?.let {
+            this.receiverID = it.getString("userID")!!
+            this.senderID = firebaseHelper.getAuth().currentUser!!.uid
+            this.senderName = firebaseHelper.getAuth().currentUser!!.displayName!!
 
-        this.senderDatabase = firebaseHelper.getMessageDatabaseRef().child("${this.senderID}_${this.receiverID}")
-        this.receiverDatabase = firebaseHelper.getMessageDatabaseRef().child("${this.receiverID}_${this.senderID}")
+            this.senderDatabase = firebaseHelper.getMessageDatabaseRef().child("${this.senderID}_${this.receiverID}")
+            this.receiverDatabase = firebaseHelper.getMessageDatabaseRef().child("${this.receiverID}_${this.senderID}")
+
+            val participant = HashMap<String, Any>()
+            val participant_1 = ChatUserModel()
+            participant_1.displayName = firebaseHelper.getAuth().currentUser!!.displayName!!
+            participant_1.userID = firebaseHelper.getAuth().currentUser!!.uid
+            participant_1.picture = firebaseHelper.getAuth().currentUser!!.photoUrl.toString()
+
+            val participant_2 = ChatUserModel()
+            participant_2.displayName = it.getString("userName")!!
+            participant_2.userID = it.getString("userID")!!
+            participant_2.picture = it.getString("picture")!!
+
+            participant["sender"] = participant_1
+            participant["receiver"] = participant_2
+
+            this.senderDatabase.updateChildren(participant)
+
+            participant["sender"] = participant_2
+            participant["receiver"] = participant_1
+
+            this.receiverDatabase.updateChildren(participant)
+
+        } ?: run {
+            Log.e("CHAT ROOM", "NO USER BUNDLE")
+        }
     }
 
     fun receivedMessage(): LiveData<List<MessageModel>> {
         val msg: MutableList<MessageModel> = mutableListOf()
 
-        senderDatabase.addChildEventListener(object : ChildEventListener{
+        senderDatabase.child("message").addChildEventListener(object : ChildEventListener{
             override fun onCancelled(p0: DatabaseError) {
 //                TODO("Not yet implemented")
             }
@@ -74,8 +103,8 @@ class ChatRoomViewModel : ViewModel() {
             messageData["senderID"] = this.senderID
             messageData["sender"] = this.senderName
             messageData["sendTime"] = date
-            this.senderDatabase.push().setValue(messageData)
-            this.receiverDatabase.push().setValue(messageData)
+            this.senderDatabase.child("message").push().setValue(messageData)
+            this.receiverDatabase.child("message").push().setValue(messageData)
         }
     }
 }

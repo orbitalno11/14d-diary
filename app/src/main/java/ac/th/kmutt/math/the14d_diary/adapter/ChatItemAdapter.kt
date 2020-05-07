@@ -34,6 +34,7 @@ class ChatItemAdapter(
                 val bundle = Bundle()
                 bundle.putString("userID", user.userID)
                 bundle.putString("userName", user.displayName)
+                bundle.putString("picture", user.picture)
                 val navController = Navigation.findNavController(it.context as AppCompatActivity, R.id.fragment_host)
                 navController.navigate(R.id.action_nav_chat_to_chatRoom, bundle)
             }

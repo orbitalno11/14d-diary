@@ -39,7 +39,7 @@ class ChatRoomFragment : Fragment() {
         this.userName = arguments?.getString("userName")!!
         this.receiverID = arguments?.getString("userID")!!
         setupAppbar()
-        viewModel.setupChat(this.receiverID)
+        viewModel.setupChat(arguments)
         viewModel.receivedMessage().observe(viewLifecycleOwner, Observer {
             addMessage(it)
             message_text.text.clear()

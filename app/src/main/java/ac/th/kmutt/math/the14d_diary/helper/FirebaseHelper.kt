@@ -68,7 +68,7 @@ class FirebaseHelper {
 
     // get message database
     fun getMessageDatabaseRef(): DatabaseReference{
-        return database.getReference("chat/messages")
+        return database.getReference("chat")
     }
 
     fun createUser(data: Bundle) {

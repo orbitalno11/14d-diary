@@ -35,17 +35,11 @@ class ChatHistoryListFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         viewModel.getHistoryList().observe(viewLifecycleOwner, Observer {
-
+            val rcv = chat_history_rcv
+            val adapter = ChatItemAdapter(context!!, it)
+            rcv.adapter = adapter
+            rcv.layoutManager = LinearLayoutManager(context)
         })
-
-        val chatList = ArrayList<ChatUserModel>()
-        chatList.add(ChatUserModel("a", "aa"))
-        chatList.add(ChatUserModel("b", "bb"))
-
-        val rcv = chat_history_rcv
-        val adapter = ChatItemAdapter(context!!, chatList)
-        rcv.adapter = adapter
-        rcv.layoutManager = LinearLayoutManager(context)
     }
 
 }

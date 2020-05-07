@@ -20,20 +20,26 @@ class ChatHistoryListViewModel : ViewModel() {
         val userID = firebaseHelper.getAuth().currentUser?.uid
 
         firebaseHelper.getDatabaseRef()
-            .child("chat/messages")
-            .orderByKey()
-            .startAt(userID)
+            .child("chat")
+            .orderByChild("/sender/userID")
+            .equalTo(userID)
             .addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
                 Log.e(tag, "Can not listen to database.")
             }
 
             override fun onDataChange(p0: DataSnapshot) {
-                Log.d(tag, "DATA ${p0.value}")
+                val list: MutableList<ChatUserModel> = mutableListOf()
+                for (data in p0.children){
+                    val receiver = data.child("receiver")
+                    val receiverData = receiver.getValue(ChatUserModel::class.java)
+                    receiverData?.let {
+                        list.add(it)
+                    }
+                }
+                chatList.value = list
             }
-
         })
-
         return chatList
     }
 }
