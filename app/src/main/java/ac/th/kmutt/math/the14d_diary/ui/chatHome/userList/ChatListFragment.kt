@@ -39,15 +39,6 @@ class ChatListFragment : Fragment() {
             rcv.layoutManager = LinearLayoutManager(context)
         })
 
-//        val chatList = ArrayList<ChatUserModel>()
-//        chatList.add(ChatUserModel("a", "aa"))
-//        chatList.add(ChatUserModel("b", "bb"))
-//        chatList.add(ChatUserModel("c", "cc"))
-//
-//        val rcv = chat_list_rcv
-//        val adapter = ChatItemAdapter(context!!, chatList)
-//        rcv.adapter = adapter
-//        rcv.layoutManager = LinearLayoutManager(context)
     }
 
 }

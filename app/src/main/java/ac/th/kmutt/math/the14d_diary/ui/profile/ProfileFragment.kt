@@ -11,6 +11,7 @@ import ac.th.kmutt.math.the14d_diary.R
 import ac.th.kmutt.math.the14d_diary.SignIn
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.google.firebase.auth.FirebaseAuth
 
@@ -20,7 +21,7 @@ class ProfileFragment : Fragment() {
         fun newInstance() = ProfileFragment()
     }
 
-    private lateinit var viewModel: ProfileViewModel
+    private val viewModel by viewModels<ProfileViewModel>()
     private val mAuth = FirebaseAuth.getInstance()
 
     override fun onCreateView(
@@ -29,6 +30,7 @@ class ProfileFragment : Fragment() {
     ): View? {
         return if (mAuth.currentUser == null){
             startActivity(Intent(context, SignIn::class.java))
+            activity?.finish()
             null
         }else{
             inflater.inflate(R.layout.fragment_profile, container, false)
@@ -37,8 +39,7 @@ class ProfileFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(ProfileViewModel::class.java)
-        // TODO: Use the ViewModel
+
     }
 
 }
