@@ -36,8 +36,8 @@
 
     <!--    diary   -->
     <string-array name="tab_diary">
-        <item>เควสทั้งหมด</item>
-        <item>สำเร็จ</item>
+        <item>ภาระกิจ 14 วัน</item>
+        <item>บันทึกของคุณ</item>
     </string-array>
 
     <string name="diary_save">บันทึก</string>

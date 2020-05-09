@@ -71,6 +71,16 @@ class FirebaseHelper {
         return database.getReference("chat")
     }
 
+    // get quest database
+    fun getQuestRef(): DatabaseReference{
+        return database.getReference("quest")
+    }
+
+    // get diary database
+    fun getDiaryRef(): DatabaseReference{
+        return database.getReference("diary")
+    }
+
     fun createUser(data: Bundle) {
         val user = UserModel()
         user.apply {

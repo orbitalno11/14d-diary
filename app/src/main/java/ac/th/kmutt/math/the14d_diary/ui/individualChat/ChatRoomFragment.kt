@@ -35,7 +35,6 @@ class ChatRoomFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-//        viewModel = ViewModelProvider(this).get(ChatRoomViewModel::class.java)
         this.userName = arguments?.getString("userName")!!
         this.receiverID = arguments?.getString("userID")!!
         setupAppbar()

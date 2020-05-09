@@ -1,4 +1,4 @@
-package ac.th.kmutt.math.the14d_diary.fragment
+package ac.th.kmutt.math.the14d_diary.ui.diaryList.quest
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -10,16 +10,19 @@ import android.view.ViewGroup
 import ac.th.kmutt.math.the14d_diary.R
 import ac.th.kmutt.math.the14d_diary.adapter.DiaryItemAdapter
 import ac.th.kmutt.math.the14d_diary.model.DiaryModel
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.diary_all_fragment.*
 
-class DiaryAllFragment : Fragment() {
+class QuestFragment : Fragment() {
 
     companion object {
-        fun newInstance() = DiaryAllFragment()
+        fun newInstance() =
+            QuestFragment()
     }
 
-    private lateinit var viewModel: DiaryAllViewModel
+    private val viewmodel by viewModels<QuestViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,17 +33,14 @@ class DiaryAllFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(DiaryAllViewModel::class.java)
-        // TODO: Use the ViewModel
 
-        val diaryList = ArrayList<DiaryModel>()
-        diaryList.add(DiaryModel("d1", "Day 1", "DDDDDD"))
-        diaryList.add(DiaryModel("d2", "Day 2", "DDDDDDDDDDDDDD"))
+        viewmodel.getQuestList().observe(viewLifecycleOwner, Observer {
+            val rcv = diary_all_list
+            val adapter = DiaryItemAdapter(context!!, it)
+            rcv.adapter = adapter
+            rcv.layoutManager = LinearLayoutManager(context)
+        })
 
-        val rcv = diary_all_list
-        val adapter = DiaryItemAdapter(context!!, diaryList)
-        rcv.adapter = adapter
-        rcv.layoutManager = LinearLayoutManager(context)
     }
 
 }

@@ -8,8 +8,10 @@ data class DiaryModel(
     var diaryID: String = "",
     var diaryName: String = "",
     var diaryDetail: String = "",
-    var diaryImg: String = "",
-    var diaryStatus: String = ""
+    var imgUrl: String = "",
+    var imgName: String = "",
+    var diaryStatus: String = "",
+    var diaryType: String = ""
 ) {
     @Exclude
     fun toMap(): Map<String, String>{
@@ -17,7 +19,8 @@ data class DiaryModel(
             "diaryID" to diaryID,
             "diaryName" to diaryName,
             "diaryDetail" to diaryDetail,
-            "diaryImg" to diaryImg,
+            "imgUrl" to imgUrl,
+            "imgName" to imgName,
             "diaryStatus" to diaryStatus
         )
     }

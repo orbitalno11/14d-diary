@@ -12,6 +12,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 
 class DiaryItemAdapter(
     private val mContext: Context,
@@ -21,15 +22,19 @@ class DiaryItemAdapter(
     inner class Holder(private val view: View): RecyclerView.ViewHolder(view){
         val diaryName: TextView = view.findViewById(R.id.diary_name)
         val diaryImg: ImageView = view.findViewById(R.id.diary_img_preview)
-        val diaryDay: TextView = view.findViewById(R.id.diary_day)
-        val diaryStatus: ImageView = view.findViewById(R.id.diary_status)
 
         fun bind(diary: DiaryModel){
             diaryName.text = diary.diaryName
 
+            if (diary.imgUrl != ""){
+                Glide.with(view).load(diary.imgUrl).centerInside().circleCrop().into(diaryImg)
+            }
+
             itemView.setOnClickListener {
                 val bundle = Bundle()
-                bundle.putString("userName", diary.diaryName)
+                bundle.putString("name", diary.diaryName)
+                bundle.putString("id", diary.diaryID)
+                bundle.putString("type", diary.diaryType)
                 val navController = Navigation.findNavController(it.context as AppCompatActivity, R.id.fragment_host)
                 navController.navigate(R.id.action_nav_diary_to_diaryFragment, bundle)
             }
