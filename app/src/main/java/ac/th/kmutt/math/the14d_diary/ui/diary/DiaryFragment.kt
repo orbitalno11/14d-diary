@@ -14,11 +14,14 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_diary.*
+import kotlinx.android.synthetic.main.fragment_diary.diary_name
+import kotlinx.android.synthetic.main.layout_diary_item.*
 
 class DiaryFragment : Fragment() {
 
@@ -28,14 +31,14 @@ class DiaryFragment : Fragment() {
 
     private val viewmodel by viewModels<DiaryViewModel> ()
     private lateinit var appbarHelper: AppbarHelper
-    private lateinit var diaryName: String
+    private var diaryName: String = "เพิ่มบันทึกประจำวัน"
     private lateinit var diaryID: String
-    private lateinit var diaryType: String
-    private lateinit var diaryDetail: DiaryModel
+    private var diaryType = "diary"
+    private var diaryDetail = DiaryModel()
 
     // camera part
     private val CAMERA_REQUEST = 101
-    private lateinit var pictureForDiary: Bitmap
+    private var pictureForDiary: Bitmap? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,15 +49,20 @@ class DiaryFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        this.diaryName = arguments?.getString("name")!!
-        this.diaryID = arguments?.getString("id")!!
-        this.diaryType = arguments?.getString("type")!!
-        setupAppbar()
 
-        viewmodel.getDiary(this.diaryID, this.diaryType).observe(viewLifecycleOwner, Observer {
-            this.diaryDetail = it
-            setupData(this.diaryDetail)
-        })
+        arguments?.let {
+            this.diaryName = arguments?.getString("name")!!
+            this.diaryID = arguments?.getString("id")!!
+            this.diaryType = arguments?.getString("type")!!
+
+            viewmodel.getDiary(this.diaryID, this.diaryType).observe(viewLifecycleOwner, Observer {
+                this.diaryDetail = it.copy()
+                setupData(this.diaryDetail)
+                Log.d(tag, "${this.diaryDetail}")
+            })
+        }
+
+        setupAppbar()
 
         take_picture.setOnClickListener {
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
@@ -62,7 +70,23 @@ class DiaryFragment : Fragment() {
         }
 
         diary_submit.setOnClickListener {
-            viewmodel.submitQuest(this.diaryDetail, this.pictureForDiary)
+            if (this.diaryType == "quest"){
+                this.pictureForDiary?.let {
+                    viewmodel.submitQuest(this.diaryDetail, it)
+                } ?: run {
+                    Toast.makeText(activity?.applicationContext, "กรุณาถ่ายภาพเพื่อทำภารกิจ", Toast.LENGTH_LONG).show()
+                }
+            } else if (this.diaryType == "diary"){
+                val name = diary_name.text.toString()
+                val detail = diary_detail.text.toString()
+                val updateData = this.diaryDetail.copy()
+                updateData.apply {
+                    this.diaryName = name
+                    this.diaryDetail = detail
+                }
+                viewmodel.submitDiary(updateData, this.pictureForDiary)
+            }
+
         }
     }
 
@@ -101,11 +125,15 @@ class DiaryFragment : Fragment() {
     }
 
     private fun setupData(data: DiaryModel){
-        diary_name.text = data.diaryName
 
         if (data.diaryType == "quest"){
             diary_detail.isEnabled = false
+            diary_name.isEnabled = false
             diary_detail.setText(data.diaryDetail)
+            diary_name.setText(data.diaryName)
+        }else if (data.diaryType == "diary"){
+            diary_detail.setText(data.diaryDetail)
+            diary_name.setText(data.diaryName)
         }
 
         if (data.imgUrl !== ""){

@@ -10,18 +10,18 @@ data class DiaryModel(
     var diaryDetail: String = "",
     var imgUrl: String = "",
     var imgName: String = "",
-    var diaryStatus: String = "",
+    var share: Boolean = false,
     var diaryType: String = ""
 ) {
     @Exclude
-    fun toMap(): Map<String, String>{
+    fun toMap(): Map<String, Any>{
         return mapOf(
             "diaryID" to diaryID,
             "diaryName" to diaryName,
             "diaryDetail" to diaryDetail,
             "imgUrl" to imgUrl,
             "imgName" to imgName,
-            "diaryStatus" to diaryStatus
+            "share" to share
         )
     }
 }

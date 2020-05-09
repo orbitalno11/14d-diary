@@ -34,51 +34,89 @@ class DiaryViewModel : ViewModel(), CoroutineScope {
         get() = job + Dispatchers.Main
 
     fun getDiary(diaryID: String, diaryType: String): LiveData<DiaryModel> {
-        val db = if (diaryType == "quest") {
+        if (diaryType == "quest") {
             firebaseHelper.getQuestRef()
+                .child(diaryID).addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+                    Log.e(tag, "Can not listen to database.", p0.toException())
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    var imgUrl: String = ""
+                    var imgName: String = ""
+                    if (p0.hasChild("user")) {
+                        val user = p0.child("user/$userID").value as HashMap<*, *>
+                        imgUrl = user["imgUrl"].toString()
+                        imgName = user["imgName"].toString()
+                    }
+                    val diary = p0.getValue(DiaryModel::class.java)
+                    diary?.apply {
+                        this.diaryID = p0.key!!
+                        this.imgName = imgName
+                        this.imgUrl = imgUrl
+                    }?.also {
+                        diaryDetail.value = it
+                    }
+                }
+            })
         } else {
             firebaseHelper.getDiaryRef()
+                .child("diary-$userID/$diaryID")
+                .addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+                    Log.e(tag, "Can not listen to database.", p0.toException())
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    val diary = p0.getValue(DiaryModel::class.java)
+                    diary?.apply {
+                        this.diaryID = p0.key!!
+                    }?.also {
+                        diaryDetail.value = it
+                    }
+                }
+            })
         }
-
-        db.child(diaryID).addValueEventListener(object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-                Log.e(tag, "Can not listen to database.", p0.toException())
-            }
-
-            override fun onDataChange(p0: DataSnapshot) {
-                var imgUrl: String = ""
-                var imgName: String = ""
-                if (p0.hasChild("user")) {
-                    val user = p0.child("user/$userID").value as HashMap<*, *>
-                    imgUrl = user["imgUrl"].toString()
-                    imgName = user["imgName"].toString()
-                }
-                val diary = p0.getValue(DiaryModel::class.java)
-                diary?.apply {
-                    this.diaryID = p0.key!!
-                    this.imgName = imgName
-                    this.imgUrl = imgUrl
-                }?.also {
-                    diaryDetail.value = it
-                }
-            }
-        })
 
         return diaryDetail
     }
 
-    fun submitQuest(diary: DiaryModel, picture: Bitmap): LiveData<Boolean> {
-        val db = if (diary.diaryType == "quest") {
-            firebaseHelper.getQuestRef()
-        } else {
-            firebaseHelper.getDiaryRef()
+    fun submitDiary(diary: DiaryModel, picture: Bitmap?): LiveData<Boolean>{
+        val db = firebaseHelper.getDiaryRef()
+
+        if (diary.diaryID == "") {
+            val diaryKey = db.child("diary-$userID").push().key
+            diary.apply {
+                this.diaryID = diaryKey!!
+                this.diaryType = "diary"
+            }
         }
+
+        launch {
+             picture?.let {
+                 val uploadData = uploadImage(diary.diaryType, diary.diaryID, it)
+                 diary.apply {
+                     this.imgName = uploadData["imgName"].toString()
+                     this.imgUrl = uploadData["imgUrl"].toString()
+                 }
+             }
+
+            val update = HashMap<String, Any>()
+            update["/diary-$userID/${diary.diaryID}"] = diary
+            db.updateChildren(update)
+        }
+
+        return submitStatus
+    }
+
+    fun submitQuest(diary: DiaryModel, picture: Bitmap): LiveData<Boolean> {
+        val db = firebaseHelper.getQuestRef()
 
         val userData = HashMap<String, String>()
         userData["userID"] = userID!!
 
         launch {
-            val data = uploadImage(diary.diaryType, diary.diaryName, picture)
+            val data = uploadImage(diary.diaryType, diary.diaryID, picture)
             Log.d(tag, "IMG DATA: $data")
             userData["imgName"] = data["imgName"].toString()
             userData["imgUrl"] = data["imgUrl"].toString()
