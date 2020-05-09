@@ -14,8 +14,10 @@ This is the android native application for who work or study at home and whom ha
  
 **:wrench: Tools:**  
 
- -  :fire: Firebase Authentication
+ - :fire: Firebase Authentication
  - :fire: Realtime Database
+ - :fire: Firebase Storage
+ - LINE API
 
 **:books: Libraries:**
 
