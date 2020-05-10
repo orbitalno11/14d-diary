@@ -41,6 +41,7 @@
     </string-array>
 
     <string name="diary_save">บันทึก</string>
+    <string name="diary_delete">ลบ</string>
 
     <!--    register    -->
     <string name="text_email">email@kmutt.ac.th</string>

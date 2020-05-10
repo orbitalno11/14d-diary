@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import ac.th.kmutt.math.the14d_diary.R
+import ac.th.kmutt.math.the14d_diary.fragment.AnnounceDialog
 import ac.th.kmutt.math.the14d_diary.helper.AppbarHelper
 import ac.th.kmutt.math.the14d_diary.model.DiaryModel
 import android.app.Activity
@@ -29,7 +30,7 @@ class DiaryFragment : Fragment() {
         fun newInstance() = DiaryFragment()
     }
 
-    private val viewmodel by viewModels<DiaryViewModel> ()
+    private val viewmodel by viewModels<DiaryViewModel>()
     private lateinit var appbarHelper: AppbarHelper
     private var diaryName: String = "เพิ่มบันทึกประจำวัน"
     private lateinit var diaryID: String
@@ -58,7 +59,6 @@ class DiaryFragment : Fragment() {
             viewmodel.getDiary(this.diaryID, this.diaryType).observe(viewLifecycleOwner, Observer {
                 this.diaryDetail = it.copy()
                 setupData(this.diaryDetail)
-                Log.d(tag, "${this.diaryDetail}")
             })
         }
 
@@ -70,13 +70,42 @@ class DiaryFragment : Fragment() {
         }
 
         diary_submit.setOnClickListener {
-            if (this.diaryType == "quest"){
+            if (this.diaryType == "quest") {
                 this.pictureForDiary?.let {
                     viewmodel.submitQuest(this.diaryDetail, it)
+                        .observe(viewLifecycleOwner, Observer { result ->
+                            result?.let {
+                                if (result) {
+                                    val resultDialog = AnnounceDialog.Builder()
+                                        .setTitle("สำเร็จ")
+                                        .setMessage("ทำภาระกิจ ${this.diaryDetail.diaryName} สำเร็จ")
+                                        .setBackground(R.drawable.btn_positive)
+                                        .setButton("ปิด")
+                                        .build()
+                                    resultDialog.show(fragmentManager!!, "DIARY")
+                                    viewmodel.clearSubmitStatus()
+                                }else{
+                                    val resultDialog = AnnounceDialog.Builder()
+                                        .setTitle("ขออภัย")
+                                        .setMessage("ทำภาระกิจ ${this.diaryDetail.diaryName} ไม่สำเร็จ")
+                                        .setBackground(R.drawable.btn_negative)
+                                        .setButton("ปิด")
+                                        .build()
+                                    resultDialog.show(fragmentManager!!, "DIARY")
+                                    viewmodel.clearSubmitStatus()
+                                }
+                            }
+                        })
                 } ?: run {
-                    Toast.makeText(activity?.applicationContext, "กรุณาถ่ายภาพเพื่อทำภารกิจ", Toast.LENGTH_LONG).show()
+                    val resultDialog = AnnounceDialog.Builder()
+                        .setTitle("ไม่พบภาพถ่าย")
+                        .setMessage("กรุณาถ่ายภาพเพื่อทำภารกิจ")
+                        .setBackground(R.drawable.btn_negative)
+                        .setButton("ปิด")
+                        .build()
+                    resultDialog.show(fragmentManager!!, "DIARY")
                 }
-            } else if (this.diaryType == "diary"){
+            } else if (this.diaryType == "diary") {
                 val name = diary_name.text.toString()
                 val detail = diary_detail.text.toString()
                 val updateData = this.diaryDetail.copy()
@@ -85,6 +114,29 @@ class DiaryFragment : Fragment() {
                     this.diaryDetail = detail
                 }
                 viewmodel.submitDiary(updateData, this.pictureForDiary)
+                    .observe(viewLifecycleOwner, Observer {  result ->
+                        result?.let {
+                            if (result) {
+                                val resultDialog = AnnounceDialog.Builder()
+                                    .setTitle("สำเร็จ")
+                                    .setMessage("บันทึกสำเร็จ")
+                                    .setBackground(R.drawable.btn_positive)
+                                    .setButton("ปิด")
+                                    .build()
+                                resultDialog.show(fragmentManager!!, "DIARY")
+                                viewmodel.clearSubmitStatus()
+                            }else{
+                                val resultDialog = AnnounceDialog.Builder()
+                                    .setTitle("ขออภัย")
+                                    .setMessage("บันทึกไม่สำเร็จ")
+                                    .setBackground(R.drawable.btn_negative)
+                                    .setButton("ปิด")
+                                    .build()
+                                resultDialog.show(fragmentManager!!, "DIARY")
+                                viewmodel.clearSubmitStatus()
+                            }
+                        }
+                    })
             }
 
         }
@@ -124,19 +176,46 @@ class DiaryFragment : Fragment() {
         })
     }
 
-    private fun setupData(data: DiaryModel){
+    private fun setupData(data: DiaryModel) {
 
-        if (data.diaryType == "quest"){
+        if (data.diaryType == "quest") {
             diary_detail.isEnabled = false
             diary_name.isEnabled = false
             diary_detail.setText(data.diaryDetail)
             diary_name.setText(data.diaryName)
-        }else if (data.diaryType == "diary"){
+        } else if (data.diaryType == "diary") {
             diary_detail.setText(data.diaryDetail)
             diary_name.setText(data.diaryName)
+            diary_delete.visibility = View.VISIBLE
+            diary_delete.setOnClickListener {
+                viewmodel.deleteDiary(this.diaryDetail)
+                    .observe(viewLifecycleOwner, Observer {result ->
+                        result?.let {
+                            if (result) {
+                                val resultDialog = AnnounceDialog.Builder()
+                                    .setTitle("สำเร็จ")
+                                    .setMessage("ลบบันทึกสำเร็จ")
+                                    .setBackground(R.drawable.btn_positive)
+                                    .setButton("ปิด")
+                                    .build()
+                                resultDialog.show(fragmentManager!!, "DIARY")
+                                viewmodel.clearSubmitStatus()
+                            }else{
+                                val resultDialog = AnnounceDialog.Builder()
+                                    .setTitle("ขออภัย")
+                                    .setMessage("ลบบันทึกไม่สำเร็จ")
+                                    .setBackground(R.drawable.btn_negative)
+                                    .setButton("ปิด")
+                                    .build()
+                                resultDialog.show(fragmentManager!!, "DIARY")
+                                viewmodel.clearSubmitStatus()
+                            }
+                        }
+                    })
+            }
         }
 
-        if (data.imgUrl !== ""){
+        if (data.imgUrl !== "") {
             Glide.with(this).load(data.imgUrl).centerInside().into(diary_picture)
         }
 

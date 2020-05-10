@@ -16,6 +16,9 @@ import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
 import java.io.ByteArrayOutputStream
+import java.time.LocalDateTime
+import java.util.*
+import kotlin.collections.HashMap
 import kotlin.coroutines.CoroutineContext
 
 class DiaryViewModel : ViewModel(), CoroutineScope {
@@ -37,73 +40,94 @@ class DiaryViewModel : ViewModel(), CoroutineScope {
         if (diaryType == "quest") {
             firebaseHelper.getQuestRef()
                 .child(diaryID).addValueEventListener(object : ValueEventListener {
-                override fun onCancelled(p0: DatabaseError) {
-                    Log.e(tag, "Can not listen to database.", p0.toException())
-                }
+                    override fun onCancelled(p0: DatabaseError) {
+                        Log.e(tag, "Can not listen to database.", p0.toException())
+                    }
 
-                override fun onDataChange(p0: DataSnapshot) {
-                    var imgUrl: String = ""
-                    var imgName: String = ""
-                    if (p0.hasChild("user")) {
-                        val user = p0.child("user/$userID").value as HashMap<*, *>
-                        imgUrl = user["imgUrl"].toString()
-                        imgName = user["imgName"].toString()
+                    override fun onDataChange(p0: DataSnapshot) {
+                        var imgUrl: String = ""
+                        var imgName: String = ""
+                        if (p0.hasChild("user")) {
+                            val user = p0.child("user/$userID").value as HashMap<*, *>
+                            imgUrl = user["imgUrl"].toString()
+                            imgName = user["imgName"].toString()
+                        }
+                        val diary = p0.getValue(DiaryModel::class.java)
+                        diary?.apply {
+                            this.diaryID = p0.key!!
+                            this.imgName = imgName
+                            this.imgUrl = imgUrl
+                        }?.also {
+                            diaryDetail.value = it
+                        }
                     }
-                    val diary = p0.getValue(DiaryModel::class.java)
-                    diary?.apply {
-                        this.diaryID = p0.key!!
-                        this.imgName = imgName
-                        this.imgUrl = imgUrl
-                    }?.also {
-                        diaryDetail.value = it
-                    }
-                }
-            })
+                })
         } else {
             firebaseHelper.getDiaryRef()
                 .child("diary-$userID/$diaryID")
                 .addValueEventListener(object : ValueEventListener {
-                override fun onCancelled(p0: DatabaseError) {
-                    Log.e(tag, "Can not listen to database.", p0.toException())
-                }
-
-                override fun onDataChange(p0: DataSnapshot) {
-                    val diary = p0.getValue(DiaryModel::class.java)
-                    diary?.apply {
-                        this.diaryID = p0.key!!
-                    }?.also {
-                        diaryDetail.value = it
+                    override fun onCancelled(p0: DatabaseError) {
+                        Log.e(tag, "Can not listen to database.", p0.toException())
                     }
-                }
-            })
+
+                    override fun onDataChange(p0: DataSnapshot) {
+                        val diary = p0.getValue(DiaryModel::class.java)
+                        diary?.apply {
+                            this.diaryID = p0.key!!
+                        }?.also {
+                            diaryDetail.value = it
+                        }
+                    }
+                })
         }
 
         return diaryDetail
     }
 
-    fun submitDiary(diary: DiaryModel, picture: Bitmap?): LiveData<Boolean>{
+    fun submitDiary(diary: DiaryModel, picture: Bitmap?): LiveData<Boolean> {
         val db = firebaseHelper.getDiaryRef()
+        var process = true
 
-        if (diary.diaryID == "") {
-            val diaryKey = db.child("diary-$userID").push().key
-            diary.apply {
-                this.diaryID = diaryKey!!
-                this.diaryType = "diary"
+        try {
+            launch {
+                if (diary.diaryID == "") {
+                    val diaryKey = db.child("diary-$userID").push().key
+                    diary.apply {
+                        this.diaryID = diaryKey!!
+                        this.diaryType = "diary"
+                    }
+                } else if (picture != null) {
+                    val oldImgRef = storageRef.child(diary.imgName)
+                    oldImgRef.delete()
+                        .addOnSuccessListener {
+                            process = true
+                        }
+                        .addOnFailureListener {
+                            process = false
+                        }
+                        .await()
+                }
+
+                if (process) {
+                    picture?.let {
+                        val uploadData = uploadImage(diary.diaryType, diary.diaryID, it)
+                        diary.apply {
+                            this.imgName = uploadData["imgName"].toString()
+                            this.imgUrl = uploadData["imgUrl"].toString()
+                        }
+                    }
+
+                    val update = HashMap<String, Any>()
+                    update["/diary-$userID/${diary.diaryID}"] = diary
+                    db.updateChildren(update)
+                        .addOnCompleteListener { submitStatus.postValue(true) }
+                        .addOnFailureListener { submitStatus.postValue(false) }
+                } else {
+                    submitStatus.postValue(false)
+                }
             }
-        }
-
-        launch {
-             picture?.let {
-                 val uploadData = uploadImage(diary.diaryType, diary.diaryID, it)
-                 diary.apply {
-                     this.imgName = uploadData["imgName"].toString()
-                     this.imgUrl = uploadData["imgUrl"].toString()
-                 }
-             }
-
-            val update = HashMap<String, Any>()
-            update["/diary-$userID/${diary.diaryID}"] = diary
-            db.updateChildren(update)
+        } catch (e: Exception) {
+            submitStatus.postValue(false)
         }
 
         return submitStatus
@@ -111,22 +135,83 @@ class DiaryViewModel : ViewModel(), CoroutineScope {
 
     fun submitQuest(diary: DiaryModel, picture: Bitmap): LiveData<Boolean> {
         val db = firebaseHelper.getQuestRef()
+        var process = true
 
-        val userData = HashMap<String, String>()
-        userData["userID"] = userID!!
+        try {
+            val userData = HashMap<String, String>()
+            userData["userID"] = userID!!
 
-        launch {
-            val data = uploadImage(diary.diaryType, diary.diaryID, picture)
-            Log.d(tag, "IMG DATA: $data")
-            userData["imgName"] = data["imgName"].toString()
-            userData["imgUrl"] = data["imgUrl"].toString()
-            val update = HashMap<String, Any>()
-            update["/${diary.diaryID}/user/$userID"] = userData
+            launch {
+                if (diary.imgUrl != "") {
+                    val oldImgRef = storageRef.child(diary.imgName)
+                    oldImgRef.delete()
+                        .addOnSuccessListener {
+                            process = true
+                        }
+                        .addOnFailureListener {
+                            process = false
+                        }
+                        .await()
+                }
 
-            db.updateChildren(update)
+                if (process) {
+                    val data = uploadImage(diary.diaryType, diary.diaryID, picture)
+                    userData["imgName"] = data["imgName"].toString()
+                    userData["imgUrl"] = data["imgUrl"].toString()
+                    val update = HashMap<String, Any>()
+                    update["/${diary.diaryID}/user/$userID"] = userData
+
+                    db.updateChildren(update)
+                        .addOnFailureListener { submitStatus.postValue(false) }
+                        .addOnCompleteListener { submitStatus.postValue(true) }
+                } else {
+                    submitStatus.postValue(false)
+                }
+            }
+        } catch (e: Exception) {
+            submitStatus.postValue(false)
         }
 
         return submitStatus
+    }
+
+    fun deleteDiary(diary: DiaryModel): LiveData<Boolean> {
+        try {
+            val query = firebaseHelper.getDiaryRef()
+                .child("diary-$userID/${diary.diaryID}")
+
+            query.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+                    Log.e(tag, "can not listen to database")
+                    submitStatus.postValue(false)
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    p0.ref.removeValue()
+                        .addOnCompleteListener {
+                            val oldImgRef = storageRef.child(diary.imgName)
+                            oldImgRef.delete()
+                                .addOnSuccessListener {
+                                    submitStatus.postValue(true)
+                                }
+                                .addOnFailureListener {
+                                    submitStatus.postValue(false)
+                                }
+                        }
+                        .addOnFailureListener {
+                            submitStatus.postValue(false)
+                        }
+                }
+            })
+        } catch (e: Exception) {
+            submitStatus.postValue(false)
+        }
+
+        return submitStatus
+    }
+
+    fun clearSubmitStatus() {
+        submitStatus.value = null
     }
 
     private suspend fun uploadImage(
@@ -134,7 +219,7 @@ class DiaryViewModel : ViewModel(), CoroutineScope {
         name: String,
         picture: Bitmap
     ): HashMap<String, String> {
-        val fileName = "${type}-${name}-$userID.jpg"
+        val fileName = "${type}_${name}_$userID-${LocalDateTime.now()}.jpg"
         val imgRef = storageRef.child(fileName)
         val baos = ByteArrayOutputStream()
         picture.compress(Bitmap.CompressFormat.JPEG, 100, baos)
