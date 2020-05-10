@@ -2,9 +2,12 @@ package ac.th.kmutt.math.the14d_diary
 
 import ac.th.kmutt.math.the14d_diary.helper.UserHelper
 import ac.th.kmutt.math.the14d_diary.model.UserModel
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -26,6 +29,8 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
     private lateinit var userHelper: UserHelper
     private val job = Job()
 
+    private val REQUEST_CODE = 101
+
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.Main
 
@@ -33,10 +38,14 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        userHelper = UserHelper()
+        val arr = arrayOf(
+            android.Manifest.permission.CALL_PHONE,
+            android.Manifest.permission.CAMERA,
+            android.Manifest.permission.READ_EXTERNAL_STORAGE
+        )
+        requestPermission(arr, REQUEST_CODE)
 
-//        val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
-//        setSupportActionBar(toolbar)
+        userHelper = UserHelper()
 
         appBarConfiguration = AppBarConfiguration(
             setOf(
@@ -52,9 +61,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.fragment_host)
-//        setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-//        supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
     }
 
@@ -65,5 +72,9 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
     fun openDrawer() {
         app_drawer.openDrawer(GravityCompat.START)
+    }
+
+    private fun requestPermission(permissionType: Array<String>, requestCode: Int) {
+        ActivityCompat.requestPermissions(this, permissionType, requestCode)
     }
 }

@@ -9,6 +9,8 @@ import android.view.ViewGroup
 
 import ac.th.kmutt.math.the14d_diary.R
 import ac.th.kmutt.math.the14d_diary.helper.AppbarHelper
+import android.content.Intent
+import android.net.Uri
 import android.view.Gravity
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -41,9 +43,7 @@ class HomeFragment : Fragment() {
         val navController = Navigation.findNavController(context as AppCompatActivity, R.id.fragment_host)
 
         chat_button.setOnClickListener {
-            val mAuth = FirebaseAuth.getInstance()
-            mAuth.signOut()
-//            navController.navigate(R.id.action_nav_home_to_nav_chat)
+            navController.navigate(R.id.action_nav_home_to_nav_chat)
         }
 
         diary_button.setOnClickListener {
@@ -52,6 +52,12 @@ class HomeFragment : Fragment() {
 
         news_button.setOnClickListener {
             navController.navigate(R.id.action_nav_home_to_nav_news)
+        }
+
+        emergency_call.setOnClickListener {
+            val intent = Intent(Intent.ACTION_DIAL)
+            intent.setData(Uri.parse("tel:+660939427647"))
+            startActivity(intent)
         }
     }
 

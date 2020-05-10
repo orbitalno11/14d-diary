@@ -8,8 +8,9 @@ import com.linecorp.linesdk.api.LineApiClientBuilder
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
-class LineHelper(applicationContext: Context): CoroutineScope {
-    private var lineApiClient: LineApiClient = LineApiClientBuilder(applicationContext, Constants.LINE_CHANNEL_ID).build()
+class LineHelper(applicationContext: Context) : CoroutineScope {
+    private var lineApiClient: LineApiClient =
+        LineApiClientBuilder(applicationContext, Constants.LINE_CHANNEL_ID).build()
     private val job = Job()
 
     override val coroutineContext: CoroutineContext
@@ -25,7 +26,9 @@ class LineHelper(applicationContext: Context): CoroutineScope {
         return data
     }
 
-    fun logout(){
-        lineApiClient.logout()
+    suspend fun logout() {
+        withContext(Dispatchers.IO){
+            lineApiClient.logout()
+        }
     }
 }

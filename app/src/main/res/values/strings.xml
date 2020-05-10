@@ -54,4 +54,6 @@
     <!--    sign in  -->
     <string name="text_sign_in">ลงชื่อเข้าใช้</string>
 
+    <!--    profile -->
+    <string name="text_sign_out">ออกจากระบบ</string>
 </resources>
