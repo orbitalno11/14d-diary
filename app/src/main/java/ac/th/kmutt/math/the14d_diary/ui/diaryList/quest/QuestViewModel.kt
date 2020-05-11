@@ -31,7 +31,7 @@ class QuestViewModel : ViewModel() {
                     for (data in p0.children){
                         var imgUrl: String = ""
                         var imgName: String = ""
-                        if (data.hasChild("user")) {
+                        if (data.hasChild("user/$userID")) {
                             val user = data.child("user/$userID").value as HashMap<*, *>
                             imgUrl = user["imgUrl"].toString()
                             imgName = user["imgName"].toString()
