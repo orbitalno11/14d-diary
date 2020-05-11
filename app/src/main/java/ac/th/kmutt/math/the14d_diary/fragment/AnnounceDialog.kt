@@ -14,12 +14,14 @@ class AnnounceDialog: DialogFragment() {
     private lateinit var message: String
     private lateinit var buttonText: String
     private var buttonBackground: Int = R.drawable.btn_positive
+    private lateinit var onClick: OnDialogListener
 
     companion object{
         private const val KEY_MESSAGE = "key_message"
         private const val KEY_TITLE = "key_title"
         private const val KEY_BUTTON = "key_button"
         private const val KEY_BACKGROUND = "key_background"
+        private const val KEY_ONCLICK = "key_onclick"
 
         fun newInstance(
             title: String,
@@ -90,8 +92,17 @@ class AnnounceDialog: DialogFragment() {
         announce_dialog_button.background = context!!.getDrawable(buttonBackground!!)
 
         announce_dialog_button.setOnClickListener {
+            this.onClick.onButtonClick()
             dismiss()
         }
+    }
+
+    private fun setOnDialogClick(onClick: OnDialogListener){
+        this.onClick = onClick
+    }
+
+    interface OnDialogListener{
+        fun onButtonClick()
     }
 
     class Builder{
@@ -99,6 +110,7 @@ class AnnounceDialog: DialogFragment() {
         private lateinit var message: String
         private lateinit var button: String
         private var buttonBackground: Int = R.drawable.btn_positive
+        private lateinit var onClickListener: OnDialogListener
 
         fun setTitle(title: String): Builder{
             this.title = title
@@ -120,8 +132,15 @@ class AnnounceDialog: DialogFragment() {
             return this
         }
 
+        fun setOnclickListener(onClick: OnDialogListener): Builder{
+            this.onClickListener = onClick
+            return this
+        }
+
         fun build(): AnnounceDialog{
-            return newInstance(title, message, button, buttonBackground)
+            val dialog = newInstance(title, message, button, buttonBackground)
+            dialog.setOnDialogClick(onClickListener)
+            return dialog
         }
     }
 }

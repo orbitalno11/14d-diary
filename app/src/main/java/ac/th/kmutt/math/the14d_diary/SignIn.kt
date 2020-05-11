@@ -1,10 +1,10 @@
 package ac.th.kmutt.math.the14d_diary
 
 import ac.th.kmutt.math.the14d_diary.`interface`.LineService
+import ac.th.kmutt.math.the14d_diary.fragment.LoadingDialog
 import ac.th.kmutt.math.the14d_diary.helper.FirebaseHelper
 import ac.th.kmutt.math.the14d_diary.model.LineToken
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -35,6 +35,7 @@ class SignIn : AppCompatActivity() {
     private val REQUEST_CODE_2: Int = 2
     private val TAG: String = SignIn::class.java.simpleName
     private var isClicked: Boolean = false
+    private lateinit var loadingDialog: LoadingDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +53,8 @@ class SignIn : AppCompatActivity() {
                 LineLoginApi.getLoginIntent(this, Constants.LINE_CHANNEL_ID, params)
             startActivityForResult(loginIntent, REQUEST_CODE_1)
         }
+
+        setupLoadingDialog()
     }
 
     override fun onBackPressed() {
@@ -67,6 +70,7 @@ class SignIn : AppCompatActivity() {
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 REQUEST_CODE_1 -> {
+                    openLoadingDialog()
                     Log.d("LOGIN", "SUCCESS CODE 1")
                     val result: LineLoginResult = LineLoginApi.getLoginResultFromIntent(data)
                     when (result.responseCode) {
@@ -121,6 +125,7 @@ class SignIn : AppCompatActivity() {
                                                     bundle.putString("name", name)
                                                     bundle.putString("id", id)
                                                     intent.putExtra("LoginData", bundle)
+                                                    closeLoadingDialog()
                                                     startActivity(intent)
                                                     finish()
                                                 }
@@ -168,10 +173,26 @@ class SignIn : AppCompatActivity() {
             mAuth.signInWithCustomToken(token.firebase_token)
                 .addOnCompleteListener(this@SignIn) {
                     if (it.isSuccessful) {
+                        closeLoadingDialog()
                         startActivity(Intent(applicationContext, MainActivity::class.java))
                         finish()
                     }
                 }
         }
+    }
+
+    private fun setupLoadingDialog(){
+        this.loadingDialog = LoadingDialog.Builder()
+            .setTitle("กรุณารอสักครู่")
+            .setMessage("กำลังตรวจสอบข้อมูล")
+            .build()
+    }
+
+    private fun openLoadingDialog(){
+        this.loadingDialog.show(this.supportFragmentManager, "LOAD")
+    }
+
+    private fun closeLoadingDialog(){
+        this.loadingDialog.dismiss()
     }
 }

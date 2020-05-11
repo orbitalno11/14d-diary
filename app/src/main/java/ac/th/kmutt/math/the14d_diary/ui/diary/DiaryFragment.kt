@@ -1,6 +1,5 @@
 package ac.th.kmutt.math.the14d_diary.ui.diary
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,6 +8,7 @@ import android.view.ViewGroup
 
 import ac.th.kmutt.math.the14d_diary.R
 import ac.th.kmutt.math.the14d_diary.fragment.AnnounceDialog
+import ac.th.kmutt.math.the14d_diary.fragment.LoadingDialog
 import ac.th.kmutt.math.the14d_diary.helper.AppbarHelper
 import ac.th.kmutt.math.the14d_diary.model.DiaryModel
 import android.app.Activity
@@ -22,7 +22,6 @@ import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_diary.*
 import kotlinx.android.synthetic.main.fragment_diary.diary_name
-import kotlinx.android.synthetic.main.layout_diary_item.*
 
 class DiaryFragment : Fragment() {
 
@@ -36,6 +35,19 @@ class DiaryFragment : Fragment() {
     private lateinit var diaryID: String
     private var diaryType = "diary"
     private var diaryDetail = DiaryModel()
+    private lateinit var loadingDialog: LoadingDialog
+
+    private val announceListenerBack: AnnounceDialog.OnDialogListener = object : AnnounceDialog.OnDialogListener{
+        override fun onButtonClick() {
+            activity?.onBackPressed()
+        }
+    }
+
+    private val announceListenerEmpty: AnnounceDialog.OnDialogListener = object : AnnounceDialog.OnDialogListener{
+        override fun onButtonClick() {
+
+        }
+    }
 
     // camera part
     private val CAMERA_REQUEST = 101
@@ -59,6 +71,8 @@ class DiaryFragment : Fragment() {
             viewmodel.getDiary(this.diaryID, this.diaryType).observe(viewLifecycleOwner, Observer {
                 this.diaryDetail = it.copy()
                 setupData(this.diaryDetail)
+
+                Log.d(tag, "DATA: ${this.diaryDetail}")
             })
         }
 
@@ -72,6 +86,7 @@ class DiaryFragment : Fragment() {
         diary_submit.setOnClickListener {
             if (this.diaryType == "quest") {
                 this.pictureForDiary?.let {
+                    setupLoadingDialog("กรุณารอสักครู่", "กำลังบันทึกข้อมูล")
                     viewmodel.submitQuest(this.diaryDetail, it)
                         .observe(viewLifecycleOwner, Observer { result ->
                             result?.let {
@@ -81,18 +96,22 @@ class DiaryFragment : Fragment() {
                                         .setMessage("ทำภาระกิจ ${this.diaryDetail.diaryName} สำเร็จ")
                                         .setBackground(R.drawable.btn_positive)
                                         .setButton("ปิด")
+                                        .setOnclickListener(announceListenerEmpty)
                                         .build()
                                     resultDialog.show(fragmentManager!!, "DIARY")
                                     viewmodel.clearSubmitStatus()
+                                    closeLoadingDialog()
                                 }else{
                                     val resultDialog = AnnounceDialog.Builder()
                                         .setTitle("ขออภัย")
                                         .setMessage("ทำภาระกิจ ${this.diaryDetail.diaryName} ไม่สำเร็จ")
                                         .setBackground(R.drawable.btn_negative)
                                         .setButton("ปิด")
+                                        .setOnclickListener(announceListenerEmpty)
                                         .build()
                                     resultDialog.show(fragmentManager!!, "DIARY")
                                     viewmodel.clearSubmitStatus()
+                                    closeLoadingDialog()
                                 }
                             }
                         })
@@ -102,6 +121,7 @@ class DiaryFragment : Fragment() {
                         .setMessage("กรุณาถ่ายภาพเพื่อทำภารกิจ")
                         .setBackground(R.drawable.btn_negative)
                         .setButton("ปิด")
+                        .setOnclickListener(announceListenerEmpty)
                         .build()
                     resultDialog.show(fragmentManager!!, "DIARY")
                 }
@@ -113,6 +133,7 @@ class DiaryFragment : Fragment() {
                     this.diaryName = name
                     this.diaryDetail = detail
                 }
+                setupLoadingDialog("กรุณารอสักครู่", "กำลังบันทึกข้อมูล")
                 viewmodel.submitDiary(updateData, this.pictureForDiary)
                     .observe(viewLifecycleOwner, Observer {  result ->
                         result?.let {
@@ -122,23 +143,26 @@ class DiaryFragment : Fragment() {
                                     .setMessage("บันทึกสำเร็จ")
                                     .setBackground(R.drawable.btn_positive)
                                     .setButton("ปิด")
+                                    .setOnclickListener(announceListenerBack)
                                     .build()
                                 resultDialog.show(fragmentManager!!, "DIARY")
                                 viewmodel.clearSubmitStatus()
+                                closeLoadingDialog()
                             }else{
                                 val resultDialog = AnnounceDialog.Builder()
                                     .setTitle("ขออภัย")
                                     .setMessage("บันทึกไม่สำเร็จ")
                                     .setBackground(R.drawable.btn_negative)
                                     .setButton("ปิด")
+                                    .setOnclickListener(announceListenerBack)
                                     .build()
                                 resultDialog.show(fragmentManager!!, "DIARY")
                                 viewmodel.clearSubmitStatus()
+                                closeLoadingDialog()
                             }
                         }
                     })
             }
-
         }
     }
 
@@ -188,6 +212,7 @@ class DiaryFragment : Fragment() {
             diary_name.setText(data.diaryName)
             diary_delete.visibility = View.VISIBLE
             diary_delete.setOnClickListener {
+                setupLoadingDialog("กรุณารอสักครู่", "กำลังดำเนินการ")
                 viewmodel.deleteDiary(this.diaryDetail)
                     .observe(viewLifecycleOwner, Observer {result ->
                         result?.let {
@@ -197,18 +222,22 @@ class DiaryFragment : Fragment() {
                                     .setMessage("ลบบันทึกสำเร็จ")
                                     .setBackground(R.drawable.btn_positive)
                                     .setButton("ปิด")
+                                    .setOnclickListener(announceListenerBack)
                                     .build()
                                 resultDialog.show(fragmentManager!!, "DIARY")
                                 viewmodel.clearSubmitStatus()
+                                closeLoadingDialog()
                             }else{
                                 val resultDialog = AnnounceDialog.Builder()
                                     .setTitle("ขออภัย")
                                     .setMessage("ลบบันทึกไม่สำเร็จ")
                                     .setBackground(R.drawable.btn_negative)
                                     .setButton("ปิด")
+                                    .setOnclickListener(announceListenerBack)
                                     .build()
                                 resultDialog.show(fragmentManager!!, "DIARY")
                                 viewmodel.clearSubmitStatus()
+                                closeLoadingDialog()
                             }
                         }
                     })
@@ -218,7 +247,18 @@ class DiaryFragment : Fragment() {
         if (data.imgUrl !== "") {
             Glide.with(this).load(data.imgUrl).centerInside().into(diary_picture)
         }
+    }
 
+    private fun setupLoadingDialog(title: String, msg: String){
+        this.loadingDialog = LoadingDialog.Builder()
+            .setTitle(title)
+            .setMessage(msg)
+            .build()
+        this.loadingDialog.show(fragmentManager!!, "LOAD")
+    }
+
+    private fun closeLoadingDialog(){
+        this.loadingDialog.dismiss()
     }
 
 }

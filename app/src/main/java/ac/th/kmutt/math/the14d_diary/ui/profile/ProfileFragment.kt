@@ -1,7 +1,6 @@
 package ac.th.kmutt.math.the14d_diary.ui.profile
 
 import ac.th.kmutt.math.the14d_diary.MainActivity
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,14 +9,11 @@ import android.view.ViewGroup
 
 import ac.th.kmutt.math.the14d_diary.R
 import ac.th.kmutt.math.the14d_diary.SignIn
+import ac.th.kmutt.math.the14d_diary.fragment.LoadingDialog
 import ac.th.kmutt.math.the14d_diary.helper.AppbarHelper
 import ac.th.kmutt.math.the14d_diary.helper.LineHelper
 import ac.th.kmutt.math.the14d_diary.helper.UserHelper
 import android.content.Intent
-import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.viewModels
-import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_profile.*
@@ -38,6 +34,7 @@ class ProfileFragment : Fragment(), CoroutineScope {
     private val mAuth = FirebaseAuth.getInstance()
     private lateinit var userHelper: UserHelper
     private lateinit var appbarHelper: AppbarHelper
+    private lateinit var loadingDialog: LoadingDialog
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,6 +54,8 @@ class ProfileFragment : Fragment(), CoroutineScope {
 
         view?.let {
             setupAppbar()
+            setupLoadingDialog()
+            openLoadingDialog()
             userHelper = UserHelper()
             launch {
                 val userData = userHelper.getUserLINEData(activity?.applicationContext!!)
@@ -65,6 +64,7 @@ class ProfileFragment : Fragment(), CoroutineScope {
 
                 Glide.with(this@ProfileFragment).load(picture).centerInside().circleCrop().into(profile_picture)
                 profile_user_name.text = name
+                closeLoadingDialog()
 
                 log_out.setOnClickListener {
                     mAuth.signOut()
@@ -87,4 +87,18 @@ class ProfileFragment : Fragment(), CoroutineScope {
         }
     }
 
+    private fun setupLoadingDialog(){
+        this.loadingDialog = LoadingDialog.Builder()
+            .setTitle("กรุณารอสักครู่")
+            .setMessage("กำลังตรวจสอบข้อมูล")
+            .build()
+    }
+
+    private fun openLoadingDialog(){
+        this.loadingDialog.show(fragmentManager!!, "LOAD")
+    }
+
+    private fun closeLoadingDialog(){
+        this.loadingDialog.dismiss()
+    }
 }

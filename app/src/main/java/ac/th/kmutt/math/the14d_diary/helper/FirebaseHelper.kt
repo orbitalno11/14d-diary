@@ -9,7 +9,6 @@ import ac.th.kmutt.math.the14d_diary.model.UserModel
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -17,16 +16,22 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.linecorp.linesdk.api.LineApiClientBuilder
+import kotlinx.coroutines.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import kotlin.coroutines.CoroutineContext
 
-class FirebaseHelper {
+class FirebaseHelper: CoroutineScope {
 
     private val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
     private val database = Firebase.database
+    private val job = Job()
+
+    override val coroutineContext: CoroutineContext
+        get() = job + Dispatchers.Main
 
     companion object {
         private var instance: FirebaseHelper? = null
@@ -124,69 +129,74 @@ class FirebaseHelper {
         params["id"] = lineData.getString("id")!!
 
         val call = service.createCustomToken(params)
-        call.enqueue(object : Callback<FirebaseCustomToken> {
-            override fun onFailure(call: Call<FirebaseCustomToken>, t: Throwable) {
-                Toast.makeText(
-                    activity.applicationContext,
-                    "LINE ERROR ${t.message}",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-
-            override fun onResponse(
-                call: Call<FirebaseCustomToken>,
-                response: Response<FirebaseCustomToken>
-            ) {
-                if (response.isSuccessful) {
-                    // can get custom token
-                    response.body()?.let { firebaseCustomToken ->
-                        val firebaseToken = firebaseCustomToken.firebase_token
-                        mAuth.signInWithCustomToken(firebaseToken)
-                            .addOnCompleteListener { auth ->
-                                if (auth.isSuccessful) {
-                                    createUser(lineData)
-                                    lineData?.let {
-                                        activity.startActivity(
-                                            Intent(
-                                                activity,
-                                                MainActivity::class.java
-                                            )
-                                        )
-                                        activity.finish()
-                                    } ?: run {
-                                        Toast.makeText(
-                                            activity.applicationContext,
-                                            "LINE ERROR ${auth.exception!!.message}",
-                                            Toast.LENGTH_LONG
-                                        ).show()
-                                    }
-                                } else {
-                                    Toast.makeText(
-                                        activity.applicationContext,
-                                        "LINE ERROR ${auth.exception!!.message}",
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                }
-                            }
-                    } ?: also {
-                        println("TOKEN is null")
+        launch {
+            // can get custom token
+            withContext(Dispatchers.IO) {
+                call.enqueue(object : Callback<FirebaseCustomToken> {
+                    override fun onFailure(call: Call<FirebaseCustomToken>, t: Throwable) {
                         Toast.makeText(
                             activity.applicationContext,
-                            "LINE ERROR",
+                            "LINE ERROR ${t.message}",
                             Toast.LENGTH_LONG
                         ).show()
                     }
-                } else {
-                    println("RESPONSE IS ERROR")
-                    println(response.body().toString())
-                    Toast.makeText(
-                        activity.applicationContext,
-                        "LINE ERROR RESPONSE IS ERROR",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-            }
 
-        })
+                    override fun onResponse(
+                        call: Call<FirebaseCustomToken>,
+                        response: Response<FirebaseCustomToken>
+                    ) {
+                        if (response.isSuccessful) {
+                            // can get custom token
+                            response.body()?.let { firebaseCustomToken ->
+                                val firebaseToken = firebaseCustomToken.firebase_token
+                                mAuth.signInWithCustomToken(firebaseToken)
+                                    .addOnCompleteListener { auth ->
+                                        if (auth.isSuccessful) {
+                                            createUser(lineData)
+                                            lineData?.let {
+                                                activity.startActivity(
+                                                    Intent(
+                                                        activity,
+                                                        MainActivity::class.java
+                                                    )
+                                                )
+                                                activity.finish()
+                                            } ?: run {
+                                                Toast.makeText(
+                                                    activity.applicationContext,
+                                                    "LINE ERROR ${auth.exception!!.message}",
+                                                    Toast.LENGTH_LONG
+                                                ).show()
+                                            }
+                                        } else {
+                                            Toast.makeText(
+                                                activity.applicationContext,
+                                                "LINE ERROR ${auth.exception!!.message}",
+                                                Toast.LENGTH_LONG
+                                            ).show()
+                                        }
+                                    }
+                            } ?: also {
+                                println("TOKEN is null")
+                                Toast.makeText(
+                                    activity.applicationContext,
+                                    "LINE ERROR",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+                        } else {
+                            println("RESPONSE IS ERROR")
+                            println(response.body().toString())
+                            Toast.makeText(
+                                activity.applicationContext,
+                                "LINE ERROR RESPONSE IS ERROR",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    }
+                })
+            }
+        }
+
     }
 }
