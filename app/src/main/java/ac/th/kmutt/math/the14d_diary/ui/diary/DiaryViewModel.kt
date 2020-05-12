@@ -47,7 +47,7 @@ class DiaryViewModel : ViewModel(), CoroutineScope {
                     override fun onDataChange(p0: DataSnapshot) {
                         var imgUrl: String = ""
                         var imgName: String = ""
-                        if (p0.hasChild("user")) {
+                        if (p0.hasChild("user/$userID")) {
                             val user = p0.child("user/$userID").value as HashMap<*, *>
                             imgUrl = user["imgUrl"].toString()
                             imgName = user["imgName"].toString()
