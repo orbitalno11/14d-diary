@@ -97,7 +97,7 @@ class DiaryViewModel : ViewModel(), CoroutineScope {
                         this.diaryType = "diary"
                     }
                 } else if (picture != null) {
-                    if (diary.imgName != ""){
+                    if (diary.imgName != "") {
                         val oldImgRef = storageRef.child(diary.imgName)
                         oldImgRef.delete()
                             .addOnSuccessListener {
@@ -179,6 +179,7 @@ class DiaryViewModel : ViewModel(), CoroutineScope {
 
     fun deleteDiary(diary: DiaryModel): LiveData<Boolean> {
         try {
+            val imgName = diary.imgName
             val query = firebaseHelper.getDiaryRef()
                 .child("diary-$userID/${diary.diaryID}")
 
@@ -191,14 +192,16 @@ class DiaryViewModel : ViewModel(), CoroutineScope {
                 override fun onDataChange(p0: DataSnapshot) {
                     p0.ref.removeValue()
                         .addOnCompleteListener {
-                            val oldImgRef = storageRef.child(diary.imgName)
-                            oldImgRef.delete()
-                                .addOnSuccessListener {
-                                    submitStatus.postValue(true)
-                                }
-                                .addOnFailureListener {
-                                    submitStatus.postValue(false)
-                                }
+                            if (imgName != "") {
+                                val oldImgRef = storageRef.child(diary.imgName)
+                                oldImgRef.delete()
+                                    .addOnSuccessListener {
+                                        submitStatus.postValue(true)
+                                    }
+                                    .addOnFailureListener {
+                                        submitStatus.postValue(false)
+                                    }
+                            }
                         }
                         .addOnFailureListener {
                             submitStatus.postValue(false)
