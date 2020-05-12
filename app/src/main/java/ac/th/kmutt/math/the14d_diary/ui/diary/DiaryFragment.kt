@@ -70,6 +70,7 @@ class DiaryFragment : Fragment() {
 
             viewmodel.getDiary(this.diaryID, this.diaryType).observe(viewLifecycleOwner, Observer {
                 this.diaryDetail = it.copy()
+                Log.d("DIARY", "$diaryDetail")
                 setupData(this.diaryDetail)
 
                 Log.d(tag, "DATA: ${this.diaryDetail}")
@@ -244,7 +245,7 @@ class DiaryFragment : Fragment() {
             }
         }
 
-        if (data.imgUrl !== "") {
+        if (data.imgUrl != "") {
             Glide.with(this).load(data.imgUrl).centerInside().into(diary_picture)
         }
     }

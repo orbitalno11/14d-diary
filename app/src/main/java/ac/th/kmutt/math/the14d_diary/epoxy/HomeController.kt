@@ -4,7 +4,10 @@ import ac.th.kmutt.math.the14d_diary.epoxy.epoxymodel.EmergencyCall_
 import ac.th.kmutt.math.the14d_diary.epoxy.epoxymodel.FunctionButton_
 import ac.th.kmutt.math.the14d_diary.epoxy.epoxymodel.NewsItemEpoxy_
 import ac.th.kmutt.math.the14d_diary.model.NewsModel
+import android.content.Intent
+import android.net.Uri
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.airbnb.epoxy.Carousel
 import com.airbnb.epoxy.CarouselModel_
 import com.airbnb.epoxy.EpoxyController
@@ -70,6 +73,12 @@ class HomeController : EpoxyController() {
                 NewsItemEpoxy_()
                     .id(news.url)
                     .news(news)
+                    .newsOnClickListener(View.OnClickListener {
+                        val intent = Intent(Intent.ACTION_VIEW)
+                        intent.data = Uri.parse(news.url)
+                        val activity = it.context as AppCompatActivity
+                        activity.startActivity(intent)
+                    })
             })
             .addTo(this)
     }

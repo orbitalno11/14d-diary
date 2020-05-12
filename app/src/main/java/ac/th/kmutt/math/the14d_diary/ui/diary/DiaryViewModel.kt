@@ -97,15 +97,17 @@ class DiaryViewModel : ViewModel(), CoroutineScope {
                         this.diaryType = "diary"
                     }
                 } else if (picture != null) {
-                    val oldImgRef = storageRef.child(diary.imgName)
-                    oldImgRef.delete()
-                        .addOnSuccessListener {
-                            process = true
-                        }
-                        .addOnFailureListener {
-                            process = false
-                        }
-                        .await()
+                    if (diary.imgName != ""){
+                        val oldImgRef = storageRef.child(diary.imgName)
+                        oldImgRef.delete()
+                            .addOnSuccessListener {
+                                process = true
+                            }
+                            .addOnFailureListener {
+                                process = false
+                            }
+                            .await()
+                    }
                 }
 
                 if (process) {

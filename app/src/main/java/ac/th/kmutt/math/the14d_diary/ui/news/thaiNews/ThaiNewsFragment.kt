@@ -42,14 +42,16 @@ class ThaiNewsFragment : Fragment() {
             }
         })
 
+        val controller = Controller()
+
+        news_rcv.layoutManager = LinearLayoutManager(context)
+        news_rcv.setHasFixedSize(false)
+        news_rcv.setController(controller)
+
         viewModel.getTodayNews().observe(viewLifecycleOwner, Observer {
-            val controller = Controller().apply {
+            controller.apply {
                 newsItems = it
             }
-
-            news_rcv.layoutManager = LinearLayoutManager(context)
-            news_rcv.setHasFixedSize(false)
-            news_rcv.setController(controller)
         })
 
     }
