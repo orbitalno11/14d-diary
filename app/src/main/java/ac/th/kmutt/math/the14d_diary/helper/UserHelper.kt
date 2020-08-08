@@ -4,13 +4,15 @@ import ac.th.kmutt.math.the14d_diary.model.UserModel
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.withContext
 import kotlin.coroutines.CoroutineContext
 
 class UserHelper : CoroutineScope {
@@ -55,6 +57,11 @@ class UserHelper : CoroutineScope {
 
     suspend fun getUserLINEData(context: Context): Bundle = withContext(Dispatchers.IO) {
         lineHelper = LineHelper(context)
-        lineHelper.getProfile()
+        if (lineHelper.verifyToken()){
+            lineHelper.getProfile()
+        }else {
+            withContext(Dispatchers.Default) { lineHelper.refreshToken() }
+            lineHelper.getProfile()
+        }
     }
 }
